@@ -10,6 +10,15 @@ class CaterpillarGame:
         self.caterpillar_length = 3
 
         self.design.write_text('Press Space to start', (0, 0), ('Arial', 18, 'bold'))
+        self.bind_keys()
+
+    def bind_keys(self):
+        t.onkey(self.start_game, 'space')
+        t.onkey(self.move_up, 'Up')
+        t.onkey(self.move_right, 'Right')
+        t.onkey(self.move_down, 'Down')
+        t.onkey(self.move_left, 'Left')
+        t.listen()
 
     def start_game(self):
         if self.game_started:
@@ -72,13 +81,8 @@ class CaterpillarGame:
     def move_right(self):
         self.design.caterpillar.setheading(0)
 
-game = CaterpillarGame()
+if __name__ == '__main__':
+    game = CaterpillarGame()
+    t.mainloop()
 
-t.onkey(game.start_game, 'space')
-t.onkey(game.move_up, 'Up')
-t.onkey(game.move_right, 'Right')
-t.onkey(game.move_down, 'Down')
-t.onkey(game.move_left, 'Left')
-t.listen()
-t.mainloop()
 

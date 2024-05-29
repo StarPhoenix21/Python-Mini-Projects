@@ -3,14 +3,23 @@ import random as rd
 
 class GameDesign:
     def __init__(self):
+        self.setup_screen()
+        self.setup_caterpillar()
+        self.setup_leaf()
+        self.setup_text_turtle()
+        self.setup_score_turtle()
+
+    def setup_screen(self):
         t.bgcolor('yellow')
 
+    def setup_caterpillar(self):
         self.caterpillar = t.Turtle()
         self.caterpillar.shape('square')
         self.caterpillar.speed(0)
         self.caterpillar.penup()
         self.caterpillar.hideturtle()
 
+    def setup_leaf(self):
         self.leaf = t.Turtle()
         leaf_shape = ((0, 0), (14, 2), (18, 6), (20, 20), (6, 18), (2, 14))
         t.register_shape('leaf', leaf_shape)
@@ -20,9 +29,11 @@ class GameDesign:
         self.leaf.hideturtle()
         self.leaf.speed(0)
 
+    def setup_text_turtle(self):
         self.text_turtle = t.Turtle()
         self.text_turtle.hideturtle()
 
+    def setup_score_turtle(self):
         self.score_turtle = t.Turtle()
         self.score_turtle.hideturtle()
         self.score_turtle.speed(0)
@@ -46,3 +57,4 @@ class GameDesign:
         self.leaf.setx(rd.randint(-200, 200))
         self.leaf.sety(rd.randint(-200, 200))
         self.leaf.showturtle()
+
