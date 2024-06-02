@@ -21,6 +21,18 @@ Running the script is really simple! Just open a terminal in the folder where yo
 ```sh
 python dictionary.py
 ```
+## 🌟 Changes or Improvement Suggested by Vishwas Yadav
+
+1. Added improved access to data.json file by introducing 'file_path' variable where you can add your current directory in which you json file resides:
+    benefits:
+    - you can now run the script from any directory just mention the path in the source code
+2. For further code enhancement:
+- added 'try' and 'except' block to handle exceptions
+- added tkinter module for GUI Interface which makes it user friendly and intereactive
+- introduced main method, so that each method can execute from main which can reduced fuzz in the code and calling each method becomes easy
+- introduced logic where translate function will return values in tuple such as it will always return word and suggestion from the dictionary or data.json so that on the output screen user can see multiple defination of single word.
+
+
 
 ## 📺 Demo
 <p align="center">
