@@ -24,8 +24,3 @@ Make sure to provide correct path for log, archive log and email_id in python fi
 
 ## 🌟 How to run 
 Simply import required funtions in your Python script and execute it.
-
-## Author Name
-
-[Madhuri Agarwal](https://github.com/magar51)
-
