@@ -1,8 +1,26 @@
-class main: 
+class main:
+    """
+    The Main class provides functionality for encrypting and decrypting strings using a simple substitution cipher.
+
+    Attributes:
+        key (dict): A dictionary mapping each letter of the alphabet to its corresponding encrypted letter.
+        blank_string (str): The string input by the user to be encrypted.
+        decrypted_string (str): The string that results from the encryption of the blank_string.
+    """
     def __init__(self,key:dict) -> None:
+        """
+        Initializes the Main class with the given key for the substitution cipher.
+
+        Parameters:
+            key (dict): A dictionary mapping each letter of the alphabet to its corresponding encrypted letter.
+        """
         self.key = key
 
-    def get_input(self) -> None: 
+    def get_input(self) -> None:
+        """
+        Prompts the user to enter a string to be encrypted, validates the input, and converts it to lowercase.
+        Only alphabetical input is accepted, if the input is invalid, the user is prompted to try again.
+        """
         while True:
             blank_string = str(input("Enter string to decrypt: "))
             if blank_string.isalpha():
@@ -14,6 +32,12 @@ class main:
                 continue
 
     def encrypt_string(self) -> str:
+        """
+        Encrypts the user-provided string using the substitution cipher defined by the key.
+
+        Returns:
+            str:The encrypted string.
+        """
         output = ""
         for c in self.blank_string:
             for k,v in self.key.items():
@@ -25,6 +49,15 @@ class main:
         return(output)
 
     def decrypt_string(self, string: str) -> str:
+        """
+        Decrypts a given string using the substitution cipher defined by the key.
+
+        Parameters:
+            string (str): The string to be decrypted.
+
+        Returns:
+            str: The decrypted string, or the original blank_string if the input string is empty.
+        """
         output = "" 
         string = string.lower()
         string = string.strip()
