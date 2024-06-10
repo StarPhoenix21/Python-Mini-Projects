@@ -8,11 +8,20 @@ MAX_FPS = 15
 IMAGES = {}
 
 def loadImages():
+    """
+    Load chess piece images and scale them to the appropriate size.
+    """
     pieces = ['wp', 'wR', 'wN', 'wB', 'wQ', 'wK', 'bp', 'bR', 'bN', 'bB', 'bQ', 'bK' ]
     for piece in pieces: 
         IMAGES[piece] = p.transform.scale(p.image.load("images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE))
 
 def main():
+    """
+    Main function to run the chess game.
+
+    This function initializes the game window, sets up the game state, handles user input,
+    updates the game state based on user actions, and renders the game state on the screen.
+    """
     p.init()
     screen = p.display.set_mode((WIDTH, HEIGHT))
     clock = p.time.Clock()
@@ -87,6 +96,15 @@ def main():
         p.display.flip()
 
 def highlightSquares(screen, gs, validMoves, sqSelected):
+    """
+    Highlight the squares on the chessboard based on the selected piece and its valid moves.
+
+    Args:
+        screen: The game screen surface.
+        gs (ChessEngine.GameState): The current game state.
+        validMoves (list): List of valid moves for the selected piece.
+        sqSelected (tuple): Tuple containing the coordinates of the selected square.
+    """
     if sqSelected != ():
         r, c = sqSelected
         if gs.board[r][c][0] == ('w' if gs.whiteToMove else 'b'):
@@ -100,11 +118,26 @@ def highlightSquares(screen, gs, validMoves, sqSelected):
                     screen.blit(s, (SQ_SIZE*moves.endCol, SQ_SIZE*moves.endRow))
 
 def drawGameState(screen, gs, validMoves, sqSelected):
+    """
+    Draw the current state of the chess game on the screen.
+
+    Args:
+        screen: The game screen surface.
+        gs (ChessEngine.GameState): The current game state.
+        validMoves (list): List of valid moves for the selected piece.
+        sqSelected (tuple): Tuple containing the coordinates of the selected square.
+    """
     drawBoard(screen)
     highlightSquares(screen, gs, validMoves, sqSelected)
     drawPieces(screen, gs.board)
 
 def drawBoard(screen):
+    """
+    Draw the chessboard on the screen.
+
+    Args:
+        screen: The game screen surface.
+    """
     global colors
     colors = [p.Color("white"), p.Color("grey")]
     for r in range(DIMENSIONS):
@@ -113,6 +146,13 @@ def drawBoard(screen):
             p.draw.rect(screen, color, p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
 def drawPieces(screen, board):
+    """
+    Draw the chess pieces on the screen based on the current board state.
+
+    Args:
+        screen: The game screen surface.
+        board (list): 2D list representing the class board state.
+    """
     for r in range(DIMENSIONS):
         for c in range(DIMENSIONS):
             piece = board[r][c]
@@ -120,6 +160,15 @@ def drawPieces(screen, board):
                 screen.blit(IMAGES[piece], p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
 def animatedMoves(move, screen,board, clock):
+    """
+    Animate the movement of a chess piece on the screen.
+
+    Args:
+        move (ChessEngine.Move): The move to animate.
+        screen: The game screen surface.
+        board (list): 2D list representing the chess board state.
+        clock: Pygame clock objects.
+    """
     global colors
     dR = move.endRow - move.startRow
     dC = move.endCol - move.startCol
@@ -140,6 +189,13 @@ def animatedMoves(move, screen,board, clock):
         clock.tick(60)
 
 def drawText(screen, text):
+    """
+    Draw text on the screen
+
+    Args:
+        screen: The game screen surface.
+        text (str): The text to be displayed.
+    """
     font = p.font.SysFont("Helvitca", 32, True, False)
     textObject = font.render(text, True, p.Color('Gray'))
     textLocation = p.Rect(0, 0, WIDTH, HEIGHT).move(WIDTH/2 - textObject.get_width()/2, HEIGHT/2 - textObject.get_height()/2)

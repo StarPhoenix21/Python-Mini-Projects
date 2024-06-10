@@ -1,8 +1,15 @@
+class GameState:
+        """
+        Represents the state of a chess game, including the board, move history,
+        and current player turn.
+        """
 
-class GameState: 
-        
         def __init__(self):
-                self.board = [
+            """
+            Initializes the game state with the starting board setup, move functions,
+            and game status indicators.
+            """
+            self.board = [
                         ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
                         ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
                         ["--", "--", "--", "--", "--", "--", "--", "--"],
@@ -11,16 +18,22 @@ class GameState:
                         ["--", "--", "--", "--", "--", "--", "--", "--"],
                         ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
                         ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]]
-                self.moveFunctions = {'p': self.getPawnMoves, 'R': self.getRookMoves, 'N': self.getKnightMoves,
-                                      'B': self.getBishopMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
-                self.whiteToMove = True,
-                self.moveLog = []
-                self.whiteKingLocation = (7, 4)
-                self.blackKingLocation = (0, 4)
-                self.checkMate = False
-                self.staleMate = False
+            self.moveFunctions = {'p': self.getPawnMoves, 'R': self.getRookMoves, 'N': self.getKnightMoves,
+                                  'B': self.getBishopMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
+            self.whiteToMove = True,
+            self.moveLog = []
+            self.whiteKingLocation = (7, 4)
+            self.blackKingLocation = (0, 4)
+            self.checkMate = False
+            self.staleMate = False
 
         def makeMove(self, move):
+                """
+                Executes a given move on the board, updates move log, and switches player turn.
+
+                Args:
+                    move (move): The move to be made,an instance of the move class.
+                """
                 self.board[move.startRow][move.startCol] = "--"
                 self.board[move.endRow][move.endCol] = move.pieceMoved
                 self.moveLog.append(move)
@@ -35,6 +48,10 @@ class GameState:
 
 
         def undoMove(self):
+                """
+                Undoes the last move made,reverting the board to the previous state
+                and switching the player turn.
+                """
                 if len(self.moveLog) != 0:
                         move = self.moveLog.pop()
                         self.board[move.startRow][move.startCol] = move.pieceMoved
@@ -44,10 +61,14 @@ class GameState:
                                 self.whiteKingLocation = (move.startRow, move.startCol)
                         if move.pieceMoved == "bK":
                                 self.blackKingLocation = (move.startRow, move.startCol)
-        """
-        All move considering checks
-        """
+
         def getValidMoves(self):
+                """
+                Returns a list of all valid moves, considering checks.
+
+                Returns:
+                    list: A list of valid moves.
+                """
                 moves = self.getAllPossibleMoves()
                 for i in range(len(moves)-1, -1, -1):
                         self.makeMove(moves[i])
@@ -68,12 +89,28 @@ class GameState:
                 return moves 
 
         def inCheck(self):
+                """
+                Checks if the current player is in checks.
+
+                Returns:
+                    bool: True if the current player is in check, False otherwise.
+                """
                 if self.whiteToMove:
                         return self.squareUnderAttack(self.whiteKingLocation[0], self.whiteKingLocation[1])
                 else:
                         return self.squareUnderAttack(self.blackKingLocation[0], self.blackKingLocation[1])
 
         def squareUnderAttack(self, r, c):
+                """
+                Determines if a specific square is under attack.
+
+                Args:
+                    r (int): The row of the square.
+                    c (int): The column of the square.
+
+                Returns:
+                    bool: True if the square is under attack, False otherwise.
+                """
                 self.whiteToMove = not self.whiteToMove
                 oppMoves = self.getAllPossibleMoves()
                 self.whiteToMove  = not self.whiteToMove
@@ -82,13 +119,13 @@ class GameState:
                                 return True
                 return False
 
-
-
-
-        """
-        All move without considering checks
-        """
         def getAllPossibleMoves(self):
+                """
+                Returns a list of all possible moves without considering checks.
+
+                Returns:
+                    list: A list of all possible moves.
+                """
                 moves = []
                 for r in range(len(self.board)):
                         for c in range(len(self.board[r])):
@@ -100,6 +137,14 @@ class GameState:
 
 
         def getPawnMoves(self, r, c, moves):
+                """
+                Adds all possible pawn moves to the list of moves.
+
+                Args:
+                    r (int); The row of the pawn.
+                    c (int): The column of the pawn.
+                    moves (list): The list of moves to append to.
+                """
                 if self.whiteToMove:
                         if self.board[r-1][c] == "--":
                                 moves.append(Move((r, c),(r-1, c), self.board))
@@ -125,6 +170,14 @@ class GameState:
                                         moves.append(Move((r, c),(r+1, c+1), self.board))
 
         def getRookMoves(self, r, c, moves):
+                """
+                Adds all possible rook moves to the list of moves.
+
+                Args:
+                    r (int): The row of the rook.
+                    c (int): The column of the rook.
+                    moves (list): The list of moves to append to.
+                """
                 directions = ((-1, 0), (0, -1), (1, 0), (0, 1))
                 enemyColor = "b" if self.whiteToMove else "w"
                 for d in directions:
@@ -144,6 +197,14 @@ class GameState:
                                         break
 
         def getKnightMoves(self, r,c,moves):
+                """
+                Adds all posible knight moves to the list of moves.
+
+                Args:
+                    r (int): The row of the knight.
+                    c (int): The column of the knight.
+                    moves (list): The list of moves to append to.
+                """
                 knightMoves = ((-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2,1))
                 allyColor = "w" if self.whiteToMove else "b"
                 for m in knightMoves:
@@ -155,6 +216,17 @@ class GameState:
                                         moves.append(Move((r,c), (endRow, endCol), self.board))
 
         def getBishopMoves(self, r,c,moves):
+                """
+                Adds all possible bishop moves to the list moves.
+
+                Args:
+                    r (int): The row index of the bishop's starting position.
+                    c (int): The column index of the bishop's starting position.
+                    moves (list): A list to which the valid moves will be appended.
+
+                Returns:
+                    None
+                """
                 directions = ((-1, -1), (-1, 1), (1, -1), (1, 1))
                 enemyColor = "b" if self.whiteToMove else "w"
                 for d in directions:
@@ -174,10 +246,30 @@ class GameState:
                                         break
 
         def getQueenMoves(self, r,c,moves):
+                """
+                Adds all possible queen moves from the given position (r,c) on the board.
+
+                This method combines the generation logic of rooks and bishops adding all
+                valid moves to the 'moves' list.
+
+                Args:
+                    r (int): The row index of the queen's starting position.
+                    c (int): The column index of the queen's starting position.
+                    moves (list): A list to witch the valid moves will be appended.
+                """
                 self.getRookMoves(r, c, moves)
                 self.getBishopMoves(r, c, moves)
 
         def getKingMoves(self, r,c,moves):
+                """
+                This method checks each possible move for the king and adds valid moves
+                to the 'moves' list.
+
+                Args:
+                    r (int): The row index of the king's starting position.
+                    c (int): The column index of the king's starting position.
+                    moves (int): A list to which the valid moves will be appended.
+                """
                 kingMoves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1,1) )
                 allyColor = "w" if self.whiteToMove else "b"
                 for i in range(8):
@@ -188,6 +280,19 @@ class GameState:
                                 if endPiece[0] != allyColor:
                                         moves.append(Move((r,c), (endRow, endCol), self.board))
 class Move():
+        """
+        This class represent a chess move.
+
+        Attributes:
+                startRow (int): The starting row index of the move.
+                startCol (int): The starting column index of the move.
+                endRow (int): The ending row index of the move.
+                endCol (int): The ending column index of the move.
+                pieceMoved (str): The piece being moved.
+                pieceCaptured (str): The piece being captured (if any).
+                isPawnPromotion (bool): Whether the move is a pawn promotion.
+                moveID (int): A unique identifier for the move.
+        """
 
         ranksToRow = {"1": 7, "2": 6, "3": 5, "4": 4,
                       "5": 3, "6": 2, "7": 1, "8": 0}
@@ -197,6 +302,14 @@ class Move():
         colsToFiles = {v: k for k, v in filesToCols.items()}
 
         def __init__(self, startSq, endSq, board):
+                """
+                Initializes a move object.
+
+                Parameters:
+                        startSq (tuple): A tuple (row, col) representing the starting square of the move.
+                        endSq (tuple): A tuple (row, col) representing the ending square of the move.
+                        board (list): The current state of the chess board.
+                """
                 self.startRow = startSq[0]
                 self.startCol = startSq[1]
                 self.endRow = endSq[0] 
@@ -209,14 +322,36 @@ class Move():
                 self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
 
         def __eq__(self, other):
+                """
+                checks if two move objects are equal based on their moveID.
+
+                Args:
+                    other (move): Another move object to compare with.
+                """
                 if isinstance(other, Move):
                         return self.moveID  == other.moveID
                 return False
 
 
         def getChessNotation(self):
+                """
+                Returns the move in standard chess notation.
+
+                Returns:
+                      str: The move in chess notation
+                """
                 return self.getRankFile(self.startRow, self.startCol) + self.getRankFile(self.endRow, self.endCol)
 
         def getRankFile(self, r, c):
+                """
+                Converts row and column indices to chess rank and file notation.
+
+                Args:
+                    r (int): The row index.
+                    c (int): The column index.
+
+                Returns:
+                    str: The corresponding chess rank and file
+                """
                 return  self.colsToFiles[c] + self.rowsToRanks[r]
 
