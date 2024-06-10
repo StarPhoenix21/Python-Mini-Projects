@@ -7,7 +7,7 @@ class main:
         blank_string (str): The string input by the user to be encrypted.
         decrypted_string (str): The string that results from the encryption of the blank_string.
     """
-    def __init__(self,key:dict) -> None:
+    def __init__(self, key: dict) -> None:
         """
         Initializes the Main class with the given key for the substitution cipher.
 
@@ -40,7 +40,7 @@ class main:
         """
         output = ""
         for c in self.blank_string:
-            for k,v in self.key.items():
+            for k, v in self.key.items():
                 if k == c:
                     output += v
                 else:
@@ -65,14 +65,17 @@ class main:
             return(self.blank_string)
         else: 
             for c in string:
-                for k,v in self.key.items():
+                for k, v in self.key.items():
                     if v == c:
                         output += k
         
         return(output)
 
+
 if __name__ == "__main__":
-    key ={"a": "d", "b": "e", "c": "f", "d": "g", "e": "h", "f": "i", "g": "j", "h": "k", "i": "l", "j": "m", "k": "n", "l": "o", "m": "p", "n": "q", "o": "r", "p": "s", "q": "t", "r": "u", "s": "v", "t": "w", "u": "x", "v": "y", "w": "z", "x": "a", "y": "b", "z": "c"}
+    key = {"a": "d", "b": "e", "c": "f", "d": "g", "e": "h", "f": "i", "g": "j", "h": "k", "i": "l", "j": "m", "k": "n",
+           "l": "o", "m": "p", "n": "q", "o": "r", "p": "s", "q": "t", "r": "u", "s": "v", "t": "w", "u": "x", "v": "y",
+           "w": "z", "x": "a", "y": "b", "z": "c"}
     main = main(key=key)
     main.get_input()
     print(main.encrypt_string())
