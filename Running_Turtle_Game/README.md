@@ -32,6 +32,12 @@ You can type this command on your teminal to run the scripts.
 
 To stop it you can press click the exit button
 
+## 🌟 How to play
+
+There are six turtles with colors - "red", "orange", "yellow", "green", "blue", "purple"
+When you run the project - the index will ask which colored turtle you select. E.g. red
+Then, the game will start and you will see whether you win or lose.
+
 ## 🤖 Author
 
 [GitHub](https://github.com/FCimendere)
