@@ -4,10 +4,19 @@ from tkinter import messagebox, Tk, Canvas
 
 
 class EggCatchGame:
+    """
+    A class to manage the logic of the game.
+    """
     def __init__(self, win, canvas):
+        """
+        Initializes the EggCatchGame.
+
+        Args:
+            win (TK): The root window of the Tkinter application.
+            canvas (Canvas): The canvas widget where the game will be played.
+        """
         self.win = win
         self.canvas = canvas
-
         self.canvas_width = 800
         self.canvas_height = 400
 
@@ -43,6 +52,9 @@ class EggCatchGame:
         self.eggs = []
 
     def create_eggs(self):
+        """
+        Creates eggs at random position and adds them the canvas.
+        """
         x = randrange(10, 740)
         y = 40
         new_egg = self.canvas.create_oval(x, y, x + self.egg_width, y + self.egg_height, fill=next(self.color_cycle),
@@ -51,6 +63,9 @@ class EggCatchGame:
         self.win.after(self.egg_interval, self.create_eggs)
 
     def move_eggs(self):
+        """
+        Moves the eggs down the canvas.
+        """
         for egg in self.eggs:
             (egg_x, egg_y, egg_x2, egg_y2) = self.canvas.coords(egg)
             self.canvas.move(egg, 0, 10)
@@ -60,28 +75,46 @@ class EggCatchGame:
         self.win.after(self.egg_speed, self.move_eggs)
 
     def move_left(self):
+        """
+        Moves the catcher to the left.
+        """
         (x1, y1, x2, y2) = self.canvas.coords(self.catcher)
         if x1 > 0:
             self.canvas.move(self.catcher, -20, 0)
 
     def move_right(self):
+        """
+        Moves the catcher to the right.
+        """
         (x1, y1, x2, y2) = self.canvas.coords(self.catcher)
         if x2 < self.canvas_width:
             self.canvas.move(self.catcher, 20, 0)
 
     def egg_dropped(self, egg):
+        """
+        Handles the event when an egg is dropped and removes it from the canvas.
+
+        Args:
+            egg: The egg that was dropped.
+        """
         self.eggs.remove(egg)
         self.canvas.delete(egg)
         self.lose_a_life()
         if self.lives_remaining == 0:
             messagebox.showinfo('GAME OVER!', 'Final Score : ' + str(self.score))
-            self.win.destroy()
+            self.destroy()
 
     def lose_a_life(self):
+        """
+        Decreases the number of lives remaining by one.
+        """
         self.lives_remaining -= 1
         self.canvas.itemconfigure(self.lives_text, text='Lives : ' + str(self.lives_remaining))
 
     def catch_check(self):
+        """
+        Checks if any eggs have been caught by the catcher.
+        """
         (catcher_x, catcher_y, catcher_x2, catcher_y2) = self.canvas.coords(self.catcher)
         for egg in self.eggs:
             (egg_x, egg_y, egg_x2, egg_y2) = self.canvas.coords(egg)
@@ -92,8 +125,15 @@ class EggCatchGame:
         self.win.after(100, self.catch_check)
 
     def increase_score(self, points):
+        """
+        Increases the score by a specified number of points and adjusts the game difficulty.
+
+        Args:
+            points (int): The number of points to add to the score.
+        """
         self.score += points
         self.egg_speed = int(self.egg_speed * self.difficulty_factor)
         self.egg_interval = int(self.egg_interval * self.difficulty_factor)
         self.canvas.itemconfigure(self.score_text, text='Score : ' + str(self.score))
+
 
