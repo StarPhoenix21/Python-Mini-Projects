@@ -109,27 +109,44 @@ def update_game_state(guess, word, display_word, guessed_words, wrong_attempts, 
     return display_word, guessed_words, wrong_attempts
 
 
+def give_hint(hint, hint_used):
+    """
+    Provides a hint to the player if not already used.
+    """
+    if hint_used:
+        print("You have already used your hint!")
+    else:
+        print(f"Hint: {hint}")
+        hint_used = True
+    return hint_used
+
+
 def hangman():
     """
     Main function to run the hangman game.
     """
-    word = choose_word(word_list)  # Choose a random word
+    chosen_word_info = choose_word(word_list)  # Choose a random word
+    word = chosen_word_info["word"]
+    hint = chosen_word_info["hint"]
     max_attempts = 10
     display_word, wrong_attempts, guessed_words = initialize_game(word)
+    hint_used = False
 
     while wrong_attempts < max_attempts:
         print(display_hangman(wrong_attempts))  # Display hangman diagram
         print("Word: " + " ".join(display_word))  # Display the current state of the word
-        guess = input("Guess the word: ").lower()  # Get the player's guess
+        guess = input("Guess the word or type 'hint' for a hint: ").lower()  # Get the player's guess
 
-        if guess.isalpha():  # Validate input
+        if guess == "hint":
+            hint_used = give_hint(hint, hint_used)
+        elif guess.isalpha():  # Validate input
             if guess in guessed_words:
                 print("You already guessed that word.")
             else:
                 display_word, guessed_words, wrong_attempts = update_game_state(
                     guess, word, display_word, guessed_words, wrong_attempts, max_attempts)
         else:
-            print("Invalid input. Please guess a word.")
+            print("Invalid input. Please guess a word or type 'hint'.")
 
         if "_" not in display_word:  # Check if the word is completely guessed
             print(f"Congratulations! You guessed the word: {''.join(display_word)}")
