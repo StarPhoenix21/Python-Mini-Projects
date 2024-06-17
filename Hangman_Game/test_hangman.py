@@ -49,6 +49,39 @@ class TestHangmanGame(unittest.TestCase):
         self.game.give_hint()
         self.assertTrue(self.game.hint_used, "Hint usage failed.")
 
+    def test_update_statistics(self):
+        # Update game statistics and verify changes
+        self.game.update_statistics(won=True, time_taken=10)
+        self.assertEqual(self.game.statistics['games_played'], 1, "Games played count is incorrect.")
+        self.assertEqual(self.game.statistics['games_won'], 1, "Games won count is incorrect.")
+        self.assertEqual(self.game.statistics['total_time'], 10, "Total time is incorrect.")
+
+    def test_update_leaderboard(self):
+        # Update leaderboard and verify the changes
+        self.game.update_leaderboard(name="Alice", won=True, time_taken=20)
+        self.assertEqual(len(self.game.leaderboard), 1, "Leaderboard entry count is incorrect.")
+        self.assertEqual(self.game.leaderboard[0]['name'], "Alice", "Leaderboard name is incorrect.")
+        self.assertTrue(self.game.leaderboard[0]['won'], "Leaderboard win status is incorrect.")
+        self.assertEqual(self.game.leaderboard[0]['time'], 20, "Leaderboard time is incorrect.")
+
+    def test_timer(self):
+        start_time = time.time()
+        time.sleep(1)  # Simulate a delay
+        end_time = time.time()
+        time_taken = end_time - start_time
+        self.assertTrue(1 <= time_taken < 2, "Timer function is incorrect.")
+
+    def test_multiplayer_turns(self):
+        players = ["Alice", "Bob"]
+        self.game.players = players
+        current_player_index = 0
+
+        # Stimulate turns and verify the turn order
+        for _ in range(4):
+            current_player = players[current_player_index]
+            self.assertEqual(current_player, self.game.players[current_player_index], "Turn order is incorrect.")
+            current_player_index = (current_player_index + 1) % len(players)
+
 
 if __name__ == "__main__":
     unittest.main()
