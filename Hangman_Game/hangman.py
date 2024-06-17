@@ -1,4 +1,5 @@
 import random
+from words import word_list  # Import the word list
 
 
 def display_hangman(attempts):
@@ -71,13 +72,12 @@ def display_hangman(attempts):
 
 
 def hangman():
-    word = random.choice(["tiger", "superman", "thor", "doraemon", "avenger", "water", "stream"])
+    word = random.choice(word_list)
     validletter = 'abcdefghijklmnopqrstuvwxyz'
     turns = 10
     guessmade = ''
     while len(word) > 0:
         main = ""
-        missed = 0
         for letter in word:
             if letter in guessmade:
                 main = main + letter
