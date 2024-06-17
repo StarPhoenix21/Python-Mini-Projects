@@ -2,254 +2,231 @@ import random
 import time
 from words import word_list  # Import the default word list
 
-def display_hangman(attempts):
-    """
-    Returns the hangman diagram based on the number of wrong attempts.
-    """
-    stages = [
-        """
-           ------
-           |    |
-           |
-           |
-           |
-           |
-        --------
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |
-           |
-           |
-        --------
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |    |
-           |
-           |
-        --------
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|
-           |
-           |
-        --------
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|\\
-           |
-           |
-        --------
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|\\
-           |   /
-           |
-        --------
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|\\
-           |   / \\
-           |
-        --------
-        """,
-    ]
-    return stages[min(attempts, len(stages) - 1)]
 
-def choose_word(word_list):
-    """
-    Chooses a random word from the word list.
-    """
-    return random.choice(word_list)
+class HangmanGame:
+    def __init__(self, word_list):
+        self.word_list = word_list
+        self.word = ""
+        self.hint = ""
+        self.display_word = []
+        self.wrong_attempts = 0
+        self.guessed_words = []
+        self.hint_used = False
+        self.max_attempts = 10
+        self.start_time = 0
+        self.statistics = {"games_played": 0, "games_won": 0, "games_lost": 0, "total_time": 0}
+        self.leaderboard = []
 
-def initialize_game(word):
-    """
-    Initializes the game state with underscores for the word,
-    zero wrong attempts, and an empty list of guessed words.
-    """
-    return ["_"] * len(word), 0, []
+    def display_hangman(self, attempts):
+        stages = [
+            """
+               ------
+               |    |
+               |
+               |
+               |
+               |
+            --------
+            """,
+            """
+               ------
+               |    |
+               |    O
+               |
+               |
+               |
+            --------
+            """,
+            """
+               ------
+               |    |
+               |    O
+               |    |
+               |
+               |
+            --------
+            """,
+            """
+               ------
+               |    |
+               |    O
+               |   /|
+               |
+               |
+            --------
+            """,
+            """
+               ------
+               |    |
+               |    O
+               |   /|\\
+               |
+               |
+            --------
+            """,
+            """
+               ------
+               |    |
+               |    O
+               |   /|\\
+               |   /
+               |
+            --------
+            """,
+            """
+               ------
+               |    |
+               |    O
+               |   /|\\
+               |   / \\
+               |
+            --------
+            """,
+        ]
+        return stages[min(attempts, len(stages) - 1)]
 
-def update_game_state(guess, word, display_word, guessed_words, wrong_attempts, max_attempts):
-    """
-    Updates the game state based on the player's guess.
-    """
-    guessed_words.append(guess)
-    correct_guess = False
+    def choose_word(self, word_list):
+        chosen_word_info = random.choice(word_list)
+        self.word = chosen_word_info["word"]
+        self.hint = chosen_word_info["hint"]
+        self.display_word, self.wrong_attempts, self.guessed_words = self.initialize_game(self.word)
+        self.hint_used = False
+        self.start_time = time.time()
 
-    # Check each character and update display_word accordingly
-    for i, letter in enumerate(word):
-        if letter == guess:
-            display_word[i] = letter
+    def initialize_game(self, word):
+        return ["_"] * len(word), 0, []
+
+    def update_game_state(self, guess):
+        self.guessed_words.append(guess)
+        correct_guess = False
+
+        if guess == self.word:
+            self.display_word = list(self.word)
             correct_guess = True
-
-    if not correct_guess:
-        wrong_attempts += 1
-        print(f"Wrong! You have {max_attempts - wrong_attempts} attempts left.")
-
-    return display_word, guessed_words, wrong_attempts
-
-def give_hint(hint, hint_used):
-    """
-    Provides a hint to the player if not already used.
-    """
-    if hint_used:
-        print("You have already used your hint!")
-    else:
-        print(f"Hint: {hint}")
-        hint_used = True
-    return hint_used
-
-def try_again():
-    """
-    Asks the player if they want to play again.
-    """
-    while True:
-        response = input("Do you want to play again? (yes/no): ").lower()
-        if response == "yes":
-            return True
-        elif response == "no":
-            print("Thanks for playing! Goodbye.")
-            return False
         else:
-            print("Please answer 'yes' or 'no'.")
+            for i, letter in enumerate(self.word):
+                if letter == guess:
+                    self.display_word[i] = letter
+                    correct_guess = True
 
-def display_statistics(player):
-    """
-    Displays the game statistics for a player.
-    """
-    print(f"\nStatistics for {player['name']}:")
-    print(f"Games Played: {player['games_played']}")
-    print(f"Games Won: {player['games_won']}")
-    print(f"Games Lost: {player['games_lost']}")
-    if player["games_played"] > 0:
-        avg_time = player["total_time"] / player["games_played"]
-        print(f"Average Time: {avg_time:.2f} seconds")
-
-def sort_key(player):
-    """
-    Sort key function for sorting the leaderboard by the number of games won.
-    """
-    return player["games_won"]
-
-def display_leaderboard(players):
-    """
-    Displays the leaderboard sorted by the number of games won.
-    """
-    print("\nLeaderboard:")
-    sorted_leaderboard = sorted(players, key=sort_key, reverse=True)
-    for rank, player in enumerate(sorted_leaderboard, start=1):
-        avg_time = player["total_time"] / player["games_played"]
-        print(f"{rank}. {player['name']} - Games Won: {player['games_won']}, Games Played: {player['games_played']}, Average Time: {avg_time:.2f} seconds")
-
-def hangman(word_list, player):
-    """
-    Main function to run the hangman game.
-    """
-    chosen_word_info = choose_word(word_list)  # Choose a random word
-    word = chosen_word_info["word"]
-    hint = chosen_word_info["hint"]
-    max_attempts = 10
-    display_word, wrong_attempts, guessed_words = initialize_game(word)
-    hint_used = False
-    start_time = time.time()
-
-    while wrong_attempts < max_attempts:
-        print(display_hangman(wrong_attempts))  # Display hangman diagram
-        print("Word: " + " ".join(display_word))  # Display the current state of the word
-        guess = input(f"{player['name']}, guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()  # Get the player's guess
-
-        if guess == "hint":
-            hint_used = give_hint(hint, hint_used)
-        elif guess.isalpha() and guess == word:  # Validate input and check if the guess matches the word
-            display_word = list(word)
-            player["games_won"] += 1
-            break
-        elif guess.isalpha():  # Validate input
-            display_word, guessed_words, wrong_attempts = update_game_state(
-                guess, word, display_word, guessed_words, wrong_attempts, max_attempts)
+        if not correct_guess:
+            self.wrong_attempts += 1
+            print(f"Wrong! You have {self.max_attempts - self.wrong_attempts} attempts left.")
         else:
-            print("Invalid input. Please guess a word or type 'hint'.")
+            print("Correct!")
 
-        if "_" not in display_word:  # Check if the word is completely guessed
-            print(f"Congratulations {player['name']}! You guessed the word: {''.join(display_word)}")
-            player["games_won"] += 1
-            break
-    else:
-        print(display_hangman(wrong_attempts))  # Display final hangman diagram
-        print(f"Game Over! The word was: {word}")
-        player["games_lost"] += 1
+    def give_hint(self):
+        if self.hint_used:
+            print("You have already used your hint!")
+        else:
+            print(f"Hint: {self.hint}")
+            self.hint_used = True
 
-    player["games_played"] += 1
-    player["total_time"] += time.time() - start_time
+    def game_won(self):
+        return "_" not in self.display_word
 
-def get_custom_word_list():
-    """
-    Prompts the player to input a custom word list.
-    """
-    custom_word_list = []
-    while True:
-        word = input("Enter a word (or 'done' to finish): ").lower()
-        if word == 'done':
-            break
-        hint = input("Enter a hint for this word: ").lower()
-        custom_word_list.append({"word": word, "hint": hint})
-    return custom_word_list
+    def game_over(self):
+        return self.wrong_attempts >= self.max_attempts
 
-def setup_players():
-    """
-    Prompts for the number of players and their names.
-    """
-    number_of_players = int(input("Enter the number of players: "))
-    players = []
+    def update_statistics(self, won, time_taken):
+        self.statistics["games_played"] += 1
+        self.statistics["total_time"] += time_taken
+        if won:
+            self.statistics["games_won"] += 1
+        else:
+            self.statistics["games_lost"] += 1
 
-    for i in range(number_of_players):
-        name = input(f"Enter the name for player {i+1}: ")
-        players.append({
-            "name": name,
-            "games_played": 0,
-            "games_won": 0,
-            "games_lost": 0,
-            "total_time": 0.0
-        })
+    def display_statistics(self):
+        print("\nStatistics:")
+        print(f"Games Played: {self.statistics['games_played']}")
+        print(f"Games Won: {self.statistics['games_won']}")
+        print(f"Games Lost: {self.statistics['games_lost']}")
+        if self.statistics["games_played"] > 0:
+            avg_time = self.statistics["total_time"] / self.statistics["games_played"]
+            print(f"Average Time: {avg_time: .2f} seconds")
 
-    return players
+    def sort_key(self, entry):
+        # Sort by won status (True > False), then by time (ascending)
+        return entry["won"], -entry["time"]
 
-# Main game loop
-def main():
-    playing = True
-    use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
-    custom_word_list = get_custom_word_list() if use_custom_list else word_list
+    def update_leaderboard(self, name, won, time_taken):
+        self.leaderboard.append({"name": name, "won": won, "time": time_taken})
+        self.leaderboard.sort(key=self.sort_key, reverse=True)
 
-    players = setup_players()
+    def display_leaderboard(self):
+        print("\nLeaderboard:")
+        for entry in self.leaderboard:
+            status = "Won" if entry["won"] else "Lost"
+            print(f"{entry['name']}: {status} in {entry['time']:.2f} seconds")
 
-    while playing:
-        for player in players:
-            print(f"\n{player['name']}'s turn!")
-            hangman(custom_word_list, player)
+    def get_custom_word_list(self):
+        custom_word_list = []
+        while True:
+            word = input("Enter a word (or 'done' to finish): ").lower()
+            if word == 'done':
+                break
+            hint = input("Enter a hint for this word: ").lower()
+            custom_word_list.append({"word": word, "hint": hint})
+        return custom_word_list
 
-        playing = try_again()
+    def try_again(self):
+        while True:
+            response = input("Do you want to play again? (yes/no): ").lower()
+            if response == "yes":
+                return True
+            elif response == "no":
+                print("Thanks for playing! Goodbye.")
+                return False
+            else:
+                print("Please answer 'yes' or 'no'.")
 
-    for player in players:
-        display_statistics(player)
+    def main(self):
+        playing = True
+        use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
+        custom_word_list = self.get_custom_word_list() if use_custom_list else self.word_list
 
-    display_leaderboard(players)
+        name = input("Enter your name: ")
+        print(f"Welcome {name}")
+        print("=====================")
+        print("Try to guess it in less than 10 attempts")
+
+        while playing:
+            self.choose_word(custom_word_list)
+            self.display_word, self.wrong_attempts, self.guessed_words = self.initialize_game(self.word)
+            self.hint_used = False
+            start_time = time.time()
+
+            while not self.game_won() and not self.game_over():
+                print(self.display_hangman(self.wrong_attempts))
+                print("Word: " + " ".join(self.display_word))
+                guess = input(f"{name}, guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()
+
+                if guess == "hint":
+                    self.give_hint()
+                elif guess.isalpha() and guess == self.word:
+                    self.display_word = list(self.word)
+                    print(f"Congratulations {name}! You guessed the word: {''.join(self.display_word)}")
+                    break
+                elif guess.isalpha():
+                    self.update_game_state(guess)
+                else:
+                    print("Invalid input. Please guess a word or type 'hint'.")
+
+            end_time = time.time()
+            time_taken = end_time - start_time
+            self.update_statistics(won=self.game_won(), time_taken=time_taken)
+            self.update_leaderboard(name, won=self.game_won(), time_taken=time_taken)
+
+            if not self.game_won():
+                print(self.display_hangman(self.wrong_attempts))
+                print(f"Game Over! The word was: {self.word}")
+
+            playing = self.try_again()
+
+        self.display_statistics()
+        self.display_leaderboard()
+
 
 if __name__ == "__main__":
-    main()
+    game = HangmanGame(word_list)
+    game.main()
