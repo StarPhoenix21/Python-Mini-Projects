@@ -121,6 +121,21 @@ def give_hint(hint, hint_used):
     return hint_used
 
 
+def try_again():
+    """
+    Asks the player if they want to play again.
+    """
+    while True:
+        response = input("Do you want to play again? (yes/no): ").lower()
+        if response == "yes":
+            return True
+        elif response == "no":
+            print("Thanks for playing! Goodbye.")
+            return False
+        else:
+            print("Please answer 'yes' or 'no'.")
+
+
 def hangman():
     """
     Main function to run the hangman game.
@@ -156,10 +171,13 @@ def hangman():
         print(f"Game Over! The word was: {word}")
 
 
-# Get player's name and start the game
-name = input("Enter your name: ")
-print(f"Welcome {name}")
-print("=====================")
-print("Try to guess the word in less than 10 attempts")
-hangman()
-print()
+# Main game loop
+playing = True
+while playing:
+    name = input("Enter your name: ")
+    print(f"Welcome {name}")
+    print("=====================")
+    print("Try to guess the word in less than 10 attempts")
+    hangman()
+    playing = try_again()
+
