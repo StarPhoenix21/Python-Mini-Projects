@@ -2,7 +2,6 @@ import random
 import time
 from words import word_list  # Import the default word list
 
-
 def display_hangman(attempts):
     """
     Returns the hangman diagram based on the number of wrong attempts.
@@ -74,13 +73,11 @@ def display_hangman(attempts):
     ]
     return stages[min(attempts, len(stages) - 1)]
 
-
 def choose_word(word_list):
     """
     Chooses a random word from the word list.
     """
     return random.choice(word_list)
-
 
 def initialize_game(word):
     """
@@ -88,7 +85,6 @@ def initialize_game(word):
     zero wrong attempts, and an empty list of guessed words.
     """
     return ["_"] * len(word), 0, []
-
 
 def update_game_state(guess, word, display_word, guessed_words, wrong_attempts, max_attempts):
     """
@@ -109,7 +105,6 @@ def update_game_state(guess, word, display_word, guessed_words, wrong_attempts, 
 
     return display_word, guessed_words, wrong_attempts
 
-
 def give_hint(hint, hint_used):
     """
     Provides a hint to the player if not already used.
@@ -120,7 +115,6 @@ def give_hint(hint, hint_used):
         print(f"Hint: {hint}")
         hint_used = True
     return hint_used
-
 
 def try_again():
     """
@@ -136,19 +130,17 @@ def try_again():
         else:
             print("Please answer 'yes' or 'no'.")
 
-
-def display_statistics(stats):
+def display_statistics(player):
     """
-    Displays the game statistics.
+    Displays the game statistics for a player.
     """
-    print("\nStatistics:")
-    print(f"Games Played: {stats['games_played']}")
-    print(f"Games Won: {stats['games_won']}")
-    print(f"Games Lost: {stats['games_lost']}")
-    if stats["games_played"] > 0:
-        avg_time = stats["total_time"] / stats["games_played"]
-        print(f"Average Time: {avg_time: .2f} seconds")
-
+    print(f"\nStatistics for {player['name']}:")
+    print(f"Games Played: {player['games_played']}")
+    print(f"Games Won: {player['games_won']}")
+    print(f"Games Lost: {player['games_lost']}")
+    if player["games_played"] > 0:
+        avg_time = player["total_time"] / player["games_played"]
+        print(f"Average Time: {avg_time:.2f} seconds")
 
 def sort_key(player):
     """
@@ -156,20 +148,17 @@ def sort_key(player):
     """
     return player["games_won"]
 
-
-def display_leaderboard(leaderboard):
+def display_leaderboard(players):
     """
     Displays the leaderboard sorted by the number of games won.
     """
     print("\nLeaderboard:")
-    sorted_leaderboard = sorted(leaderboard, key=sort_key, reverse=True)
+    sorted_leaderboard = sorted(players, key=sort_key, reverse=True)
     for rank, player in enumerate(sorted_leaderboard, start=1):
         avg_time = player["total_time"] / player["games_played"]
-        print(f"{rank}. {player['name']} - Games Won: {player['games_won']}, Games Played: {player['games_played']}, "
-              f"Average Time: {avg_time: .2f} seconds")
+        print(f"{rank}. {player['name']} - Games Won: {player['games_won']}, Games Played: {player['games_played']}, Average Time: {avg_time:.2f} seconds")
 
-
-def hangman(word_list, stats):
+def hangman(word_list, player):
     """
     Main function to run the hangman game.
     """
@@ -184,13 +173,13 @@ def hangman(word_list, stats):
     while wrong_attempts < max_attempts:
         print(display_hangman(wrong_attempts))  # Display hangman diagram
         print("Word: " + " ".join(display_word))  # Display the current state of the word
-        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()
+        guess = input(f"{player['name']}, guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()  # Get the player's guess
 
         if guess == "hint":
             hint_used = give_hint(hint, hint_used)
         elif guess.isalpha() and guess == word:  # Validate input and check if the guess matches the word
             display_word = list(word)
-            stats["games_won"] += 1
+            player["games_won"] += 1
             break
         elif guess.isalpha():  # Validate input
             display_word, guessed_words, wrong_attempts = update_game_state(
@@ -199,17 +188,16 @@ def hangman(word_list, stats):
             print("Invalid input. Please guess a word or type 'hint'.")
 
         if "_" not in display_word:  # Check if the word is completely guessed
-            print(f"Congratulations! You guessed the word: {''.join(display_word)}")
-            stats["games_won"] += 1
+            print(f"Congratulations {player['name']}! You guessed the word: {''.join(display_word)}")
+            player["games_won"] += 1
             break
     else:
         print(display_hangman(wrong_attempts))  # Display final hangman diagram
         print(f"Game Over! The word was: {word}")
-        stats["games_lost"] += 1
+        player["games_lost"] += 1
 
-    stats["games_played"] += 1
-    stats["total_time"] += time.time() - start_time
-
+    player["games_played"] += 1
+    player["total_time"] += time.time() - start_time
 
 def get_custom_word_list():
     """
@@ -224,6 +212,24 @@ def get_custom_word_list():
         custom_word_list.append({"word": word, "hint": hint})
     return custom_word_list
 
+def setup_players():
+    """
+    Prompts for the number of players and their names.
+    """
+    number_of_players = int(input("Enter the number of players: "))
+    players = []
+
+    for i in range(number_of_players):
+        name = input(f"Enter the name for player {i+1}: ")
+        players.append({
+            "name": name,
+            "games_played": 0,
+            "games_won": 0,
+            "games_lost": 0,
+            "total_time": 0.0
+        })
+
+    return players
 
 # Main game loop
 def main():
@@ -231,31 +237,19 @@ def main():
     use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
     custom_word_list = get_custom_word_list() if use_custom_list else word_list
 
-    statistics = {
-        "games_played": 0,
-        "games_won": 0,
-        "games_lost": 0,
-        "total_time": 0.0
-    }
-    leaderboard = []
+    players = setup_players()
 
     while playing:
-        name = input("Enter your name: ")
-        print(f"Welcome {name}")
-        print("=====================")
-        print("Try to guess the word in less than 10 attempts")
-        hangman(custom_word_list, statistics)
-        leaderboard.append({
-            "name": name,
-            "games_played": statistics["games_played"],
-            "games_won": statistics["games_won"],
-            "total_time": statistics["total_time"]
-        })
+        for player in players:
+            print(f"\n{player['name']}'s turn!")
+            hangman(custom_word_list, player)
+
         playing = try_again()
 
-    display_statistics(statistics)
-    display_leaderboard(leaderboard)
+    for player in players:
+        display_statistics(player)
 
+    display_leaderboard(players)
 
 if __name__ == "__main__":
     main()
