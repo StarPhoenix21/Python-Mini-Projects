@@ -1,6 +1,6 @@
 import random
 import time
-from words import word_list  # Import the word list
+from words import word_list  # Import the default word list
 
 
 def display_hangman(attempts):
@@ -99,7 +99,7 @@ def update_game_state(guess, word, display_word, guessed_words, wrong_attempts, 
 
     # Check each character and update display_word accordingly
     for i, letter in enumerate(word):
-        if i < len(guess) and guess[i] == letter:
+        if letter == guess:
             display_word[i] = letter
             correct_guess = True
 
@@ -166,10 +166,10 @@ def display_leaderboard(leaderboard):
     for rank, player in enumerate(sorted_leaderboard, start=1):
         avg_time = player["total_time"] / player["games_played"]
         print(f"{rank}. {player['name']} - Games Won: {player['games_won']}, Games Played: {player['games_played']}, "
-              f" Average Time: {avg_time: .2f} seconds")
+              f"Average Time: {avg_time: .2f} seconds")
 
 
-def hangman(stats):
+def hangman(word_list, stats):
     """
     Main function to run the hangman game.
     """
@@ -188,12 +188,13 @@ def hangman(stats):
 
         if guess == "hint":
             hint_used = give_hint(hint, hint_used)
+        elif guess.isalpha() and guess == word:  # Validate input and check if the guess matches the word
+            display_word = list(word)
+            stats["games_won"] += 1
+            break
         elif guess.isalpha():  # Validate input
-            if guess in guessed_words:
-                print("You already guessed that word.")
-            else:
-                display_word, guessed_words, wrong_attempts = update_game_state(
-                    guess, word, display_word, guessed_words, wrong_attempts, max_attempts)
+            display_word, guessed_words, wrong_attempts = update_game_state(
+                guess, word, display_word, guessed_words, wrong_attempts, max_attempts)
         else:
             print("Invalid input. Please guess a word or type 'hint'.")
 
@@ -210,29 +211,51 @@ def hangman(stats):
     stats["total_time"] += time.time() - start_time
 
 
+def get_custom_word_list():
+    """
+    Prompts the player to input a custom word list.
+    """
+    custom_word_list = []
+    while True:
+        word = input("Enter a word (or 'done' to finish): ").lower()
+        if word == 'done':
+            break
+        hint = input("Enter a hint for this word: ").lower()
+        custom_word_list.append({"word": word, "hint": hint})
+    return custom_word_list
+
+
 # Main game loop
-playing = True
-statistics = {
-    "games_played": 0,
-    "games_won": 0,
-    "games_lost": 0,
-    "total_time": 0.0
-}
-leaderboard = []
+def main():
+    playing = True
+    use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
+    custom_word_list = get_custom_word_list() if use_custom_list else word_list
 
-while playing:
-    name = input("Enter your name: ")
-    print(f"Welcome {name}")
-    print("=====================")
-    print("Try to guess the word in less than 10 attempts")
-    hangman(statistics)
-    leaderboard.append({
-        "name": name,
-        "games_played": statistics["games_played"],
-        "games_won": statistics["games_won"],
-        "total_time": statistics["total_time"]
-    })
-    playing = try_again()
+    statistics = {
+        "games_played": 0,
+        "games_won": 0,
+        "games_lost": 0,
+        "total_time": 0.0
+    }
+    leaderboard = []
 
-display_statistics(statistics)
-display_leaderboard(leaderboard)
+    while playing:
+        name = input("Enter your name: ")
+        print(f"Welcome {name}")
+        print("=====================")
+        print("Try to guess the word in less than 10 attempts")
+        hangman(custom_word_list, statistics)
+        leaderboard.append({
+            "name": name,
+            "games_played": statistics["games_played"],
+            "games_won": statistics["games_won"],
+            "total_time": statistics["total_time"]
+        })
+        playing = try_again()
+
+    display_statistics(statistics)
+    display_leaderboard(leaderboard)
+
+
+if __name__ == "__main__":
+    main()
