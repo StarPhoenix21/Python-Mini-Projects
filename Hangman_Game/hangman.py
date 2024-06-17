@@ -71,7 +71,7 @@ def display_hangman(attempts):
         --------
         """,
     ]
-    return stages[attempts]
+    return stages[min(attempts, len(stages) - 1)]
 
 
 def choose_word(word_list):
@@ -94,10 +94,15 @@ def update_game_state(guess, word, display_word, guessed_words, wrong_attempts, 
     Updates the game state based on the player's guess.
     """
     guessed_words.append(guess)
-    if guess == word:
-        display_word = list(word)
+    correct_guess = False
 
-    else:
+    # Check each character and update display_word accordingly
+    for i, letter in enumerate(word):
+        if i < len(guess) and guess[i] == letter:
+            display_word[i] = letter
+            correct_guess = True
+
+    if not correct_guess:
         wrong_attempts += 1
         print(f"Wrong! You have {max_attempts - wrong_attempts} attempts left.")
 
