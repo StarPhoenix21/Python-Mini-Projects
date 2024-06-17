@@ -145,6 +145,24 @@ def display_statistics(stats):
     print(f"Games Won: {stats['games_won']}")
     print(f"Games Lost: {stats['games_lost']}")
 
+
+def sort_key(player):
+    """
+    Sort key function for sorting the leaderboard by the number of games won.
+    """
+    return player["games_won"]
+
+
+def display_leaderboard(leaderboard):
+    """
+    Displays the leaderboard sorted by the number of games won.
+    """
+    print("\nLeaderboard:")
+    sorted_leaderboard = sorted(leaderboard, key=sort_key, reverse=True)
+    for rank, player in enumerate(sorted_leaderboard, start=1):
+        print(f"{rank}. {player['name']} - Games Won: {player['games_won']}, Games Played: {player['games_played']}")
+
+
 def hangman(stats):
     """
     Main function to run the hangman game.
@@ -159,7 +177,7 @@ def hangman(stats):
     while wrong_attempts < max_attempts:
         print(display_hangman(wrong_attempts))  # Display hangman diagram
         print("Word: " + " ".join(display_word))  # Display the current state of the word
-        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()  # Get the player's guess
+        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()
 
         if guess == "hint":
             hint_used = give_hint(hint, hint_used)
@@ -183,6 +201,7 @@ def hangman(stats):
 
     stats["games_played"] += 1
 
+
 # Main game loop
 playing = True
 statistics = {
@@ -190,6 +209,7 @@ statistics = {
     "games_won": 0,
     "games_lost": 0
 }
+leaderboard = []
 
 while playing:
     name = input("Enter your name: ")
@@ -197,6 +217,8 @@ while playing:
     print("=====================")
     print("Try to guess the word in less than 10 attempts")
     hangman(statistics)
+    leaderboard.append({"name": name, "games_played": statistics["games_played"], "games_won": statistics["games_won"]})
     playing = try_again()
 
 display_statistics(statistics)
+display_leaderboard(leaderboard)
