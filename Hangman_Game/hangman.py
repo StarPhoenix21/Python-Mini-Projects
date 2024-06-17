@@ -136,7 +136,16 @@ def try_again():
             print("Please answer 'yes' or 'no'.")
 
 
-def hangman():
+def display_statistics(stats):
+    """
+    Displays the game statistics.
+    """
+    print("\nStatistics:")
+    print(f"Games Played: {stats['games_played']}")
+    print(f"Games Won: {stats['games_won']}")
+    print(f"Games Lost: {stats['games_lost']}")
+
+def hangman(stats):
     """
     Main function to run the hangman game.
     """
@@ -150,7 +159,7 @@ def hangman():
     while wrong_attempts < max_attempts:
         print(display_hangman(wrong_attempts))  # Display hangman diagram
         print("Word: " + " ".join(display_word))  # Display the current state of the word
-        guess = input("Guess the word or type 'hint' for a hint: ").lower()  # Get the player's guess
+        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()  # Get the player's guess
 
         if guess == "hint":
             hint_used = give_hint(hint, hint_used)
@@ -165,19 +174,29 @@ def hangman():
 
         if "_" not in display_word:  # Check if the word is completely guessed
             print(f"Congratulations! You guessed the word: {''.join(display_word)}")
+            stats["games_won"] += 1
             break
     else:
         print(display_hangman(wrong_attempts))  # Display final hangman diagram
         print(f"Game Over! The word was: {word}")
+        stats["games_lost"] += 1
 
+    stats["games_played"] += 1
 
 # Main game loop
 playing = True
+statistics = {
+    "games_played": 0,
+    "games_won": 0,
+    "games_lost": 0
+}
+
 while playing:
     name = input("Enter your name: ")
     print(f"Welcome {name}")
     print("=====================")
     print("Try to guess the word in less than 10 attempts")
-    hangman()
+    hangman(statistics)
     playing = try_again()
 
+display_statistics(statistics)
