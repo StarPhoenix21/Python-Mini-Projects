@@ -1,4 +1,5 @@
 import random
+import time
 from words import word_list  # Import the word list
 
 
@@ -144,6 +145,9 @@ def display_statistics(stats):
     print(f"Games Played: {stats['games_played']}")
     print(f"Games Won: {stats['games_won']}")
     print(f"Games Lost: {stats['games_lost']}")
+    if stats["games_played"] > 0:
+        avg_time = stats["total_time"] / stats["games_played"]
+        print(f"Average Time: {avg_time:.2f} seconds")
 
 
 def sort_key(player):
@@ -173,11 +177,12 @@ def hangman(stats):
     max_attempts = 10
     display_word, wrong_attempts, guessed_words = initialize_game(word)
     hint_used = False
+    start_time = time.time()
 
     while wrong_attempts < max_attempts:
         print(display_hangman(wrong_attempts))  # Display hangman diagram
         print("Word: " + " ".join(display_word))  # Display the current state of the word
-        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()
+        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()  # Get the player's guess
 
         if guess == "hint":
             hint_used = give_hint(hint, hint_used)
@@ -200,6 +205,7 @@ def hangman(stats):
         stats["games_lost"] += 1
 
     stats["games_played"] += 1
+    stats["total_time"] += time.time() - start_time
 
 
 # Main game loop
@@ -207,7 +213,8 @@ playing = True
 statistics = {
     "games_played": 0,
     "games_won": 0,
-    "games_lost": 0
+    "games_lost": 0,
+    "total_time": 0.0
 }
 leaderboard = []
 
