@@ -2,8 +2,10 @@ import random
 from words import word_list  # Import the word list
 
 
-# Function to display the hangman diagram based on the number of wrong attempts
 def display_hangman(attempts):
+    """
+    Returns the hangman diagram based on the number of wrong attempts.
+    """
     stages = [
         """
            ------
@@ -71,40 +73,65 @@ def display_hangman(attempts):
     ]
     return stages[attempts]
 
-# Main function to run the hangman game
-def hangman():
-    # Choose a random word from the word list
-    word = random.choice(word_list)
-    valid_letters = 'abcdefghijklmnopqrstuvwxyz'
-    turns = 10
-    guess_made = ''
-    display_word = ["_"] * len(word)  # Initialize display word with underscores
 
-    while turns > 0:
-        print(display_hangman(10 - turns))  # Display hangman diagram
+def choose_word(word_list):
+    """
+    Chooses a random word from the word list.
+    """
+    return random.choice(word_list)
+
+
+def initialize_game(word):
+    """
+    Initializes the game state with underscores for the word,
+    zero wrong attempts, and an empty list of guessed words.
+    """
+    return ["_"] * len(word), 0, []
+
+
+def update_game_state(guess, word, display_word, guessed_words, wrong_attempts, max_attempts):
+    """
+    Updates the game state based on the player's guess.
+    """
+    guessed_words.append(guess)
+    if guess == word:
+        display_word = list(word)
+
+    else:
+        wrong_attempts += 1
+        print(f"Wrong! You have {max_attempts - wrong_attempts} attempts left.")
+
+    return display_word, guessed_words, wrong_attempts
+
+
+def hangman():
+    """
+    Main function to run the hangman game.
+    """
+    word = choose_word(word_list)  # Choose a random word
+    max_attempts = 10
+    display_word, wrong_attempts, guessed_words = initialize_game(word)
+
+    while wrong_attempts < max_attempts:
+        print(display_hangman(wrong_attempts))  # Display hangman diagram
         print("Word: " + " ".join(display_word))  # Display the current state of the word
         guess = input("Guess the word: ").lower()  # Get the player's guess
 
-        if guess.isalpha():  # Check if the guess is a valid word
-            if guess in guess_made:
+        if guess.isalpha():  # Validate input
+            if guess in guessed_words:
                 print("You already guessed that word.")
             else:
-                guess_made += guess  # Add the guess to guessed words
-                if guess == word:  # Check if the guess is correct
-                    display_word = list(word)
-                    break
-                else:
-                    turns -= 1  # Decrease the number of attempts
-                    print(f"Wrong! You have {turns} attempts left.")
+                display_word, guessed_words, wrong_attempts = update_game_state(
+                    guess, word, display_word, guessed_words, wrong_attempts, max_attempts)
         else:
             print("Invalid input. Please guess a word.")
 
         if "_" not in display_word:  # Check if the word is completely guessed
-            print("Congratulations! You guessed the word: " + word)
+            print(f"Congratulations! You guessed the word: {''.join(display_word)}")
             break
     else:
-        print(display_hangman(10 - turns))  # Display final hangman diagram
-        print("Game Over! The word was: " + word)  # Reveal the word
+        print(display_hangman(wrong_attempts))  # Display final hangman diagram
+        print(f"Game Over! The word was: {word}")
 
 
 # Get player's name and start the game
