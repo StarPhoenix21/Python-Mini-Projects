@@ -147,7 +147,7 @@ def display_statistics(stats):
     print(f"Games Lost: {stats['games_lost']}")
     if stats["games_played"] > 0:
         avg_time = stats["total_time"] / stats["games_played"]
-        print(f"Average Time: {avg_time:.2f} seconds")
+        print(f"Average Time: {avg_time: .2f} seconds")
 
 
 def sort_key(player):
@@ -164,7 +164,9 @@ def display_leaderboard(leaderboard):
     print("\nLeaderboard:")
     sorted_leaderboard = sorted(leaderboard, key=sort_key, reverse=True)
     for rank, player in enumerate(sorted_leaderboard, start=1):
-        print(f"{rank}. {player['name']} - Games Won: {player['games_won']}, Games Played: {player['games_played']}")
+        avg_time = player["total_time"] / player["games_played"]
+        print(f"{rank}. {player['name']} - Games Won: {player['games_won']}, Games Played: {player['games_played']}, "
+              f" Average Time: {avg_time: .2f} seconds")
 
 
 def hangman(stats):
@@ -182,7 +184,7 @@ def hangman(stats):
     while wrong_attempts < max_attempts:
         print(display_hangman(wrong_attempts))  # Display hangman diagram
         print("Word: " + " ".join(display_word))  # Display the current state of the word
-        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()  # Get the player's guess
+        guess = input("Guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()
 
         if guess == "hint":
             hint_used = give_hint(hint, hint_used)
@@ -224,7 +226,12 @@ while playing:
     print("=====================")
     print("Try to guess the word in less than 10 attempts")
     hangman(statistics)
-    leaderboard.append({"name": name, "games_played": statistics["games_played"], "games_won": statistics["games_won"]})
+    leaderboard.append({
+        "name": name,
+        "games_played": statistics["games_played"],
+        "games_won": statistics["games_won"],
+        "total_time": statistics["total_time"]
+    })
     playing = try_again()
 
 display_statistics(statistics)
