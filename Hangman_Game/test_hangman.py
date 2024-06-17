@@ -6,10 +6,16 @@ from words import word_list  # Ensure the correct import path
 
 class TestHangmanGame(unittest.TestCase):
     def setUp(self):
-        # Initialize a new Hangman game instance for each test
+        """Initialize a new Hangman game instance for each test."""
         self.game = HangmanGame(word_list)
 
     def test_choose_word_randomness(self):
+        """
+        Test the randomness of word selection.
+
+        This test runs multiple iterations to ensure that different words are
+        chosen, indicating randomness in the word selection process.
+        """
         chosen_words = set()
         iterations = 100  # Number of iterations to test randomness
 
@@ -22,6 +28,12 @@ class TestHangmanGame(unittest.TestCase):
         self.assertGreater(len(chosen_words), 1, "Randomness test failed. Only one word was chosen repeatedly.")
 
     def test_initialize_game(self):
+        """
+        Test the initialization of the game.
+
+        This test verifies that the game initializes the display word,
+        wrong attempts counter, and guessed words list correctly.
+        """
         word = "elephant"
         display_word, wrong_attempts, guessed_words = self.game.initialize_game(word)
         # Verify that the display word is initialized correctly
@@ -30,6 +42,12 @@ class TestHangmanGame(unittest.TestCase):
         self.assertEqual(guessed_words, [], "Guessed words initialization failed.")
 
     def test_update_game_state_wrong_guess(self):
+        """
+        Test updating the game state with a wrong guess.
+
+        This test ensures that the game state is updated correctly when a wrong
+        word guess is made, including display word, guessed words, and wrong attempts.
+        """
         word = "python"
         guess = "java"
         self.game.display_word, self.game.wrong_attempts, self.game.guessed_words = self.game.initialize_game(word)
@@ -42,6 +60,11 @@ class TestHangmanGame(unittest.TestCase):
         self.assertEqual(self.game.wrong_attempts, 1, "Wrong attempts should have incremented for wrong guess.")
 
     def test_give_hint(self):
+        """
+        Test the hint functionality.
+
+        This test verifies that using a hint sets the hint used flag to True.
+        """
         self.game.hint = "a large wild cat"
         self.game.hint_used = False
 
@@ -50,6 +73,12 @@ class TestHangmanGame(unittest.TestCase):
         self.assertTrue(self.game.hint_used, "Hint usage failed.")
 
     def test_update_statistics(self):
+        """
+        Test updating game statistics.
+
+        This test verifies that the game statistics are correctly updated
+        when a game is won and the time taken is recorded.
+        """
         # Update game statistics and verify changes
         self.game.update_statistics(won=True, time_taken=10)
         self.assertEqual(self.game.statistics['games_played'], 1, "Games played count is incorrect.")
@@ -57,6 +86,12 @@ class TestHangmanGame(unittest.TestCase):
         self.assertEqual(self.game.statistics['total_time'], 10, "Total time is incorrect.")
 
     def test_update_leaderboard(self):
+        """
+        Test updating the leaderboard.
+
+        This test verifies that the leaderboard is correctly updated with a new entry,
+        including the player's name, win status, and time taken.
+        """
         # Update leaderboard and verify the changes
         self.game.update_leaderboard(name="Alice", won=True, time_taken=20)
         self.assertEqual(len(self.game.leaderboard), 1, "Leaderboard entry count is incorrect.")
@@ -65,6 +100,12 @@ class TestHangmanGame(unittest.TestCase):
         self.assertEqual(self.game.leaderboard[0]['time'], 20, "Leaderboard time is incorrect.")
 
     def test_timer(self):
+        """
+        Test the timer functionality.
+
+        This test ensures that the timer measures approximately 1 second,
+        accounting for slight variations in execution time.
+        """
         start_time = time.time()
         time.sleep(1)  # Simulate a delay
         end_time = time.time()
@@ -72,6 +113,12 @@ class TestHangmanGame(unittest.TestCase):
         self.assertTrue(1 <= time_taken < 2, "Timer function is incorrect.")
 
     def test_multiplayer_turns(self):
+        """
+        Test the turn order in a multiplayer game.
+
+        This test simulates turns for two players (Alice and Bob) and verifies
+        that the turn order cycles correctly between the players.
+        """
         players = ["Alice", "Bob"]
         self.game.players = players
         current_player_index = 0
