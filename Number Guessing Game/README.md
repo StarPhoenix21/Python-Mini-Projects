@@ -28,7 +28,7 @@ This game is from Hamid Raza
 <br>
 This is my GitHub Profile( https://github.com/Hami-d-Raza ) 
 <br>
-I am a new user on GitHub and I don't know how to make branches and add them. Please approve this. I spent a whole day making this.
+I am a new user on GitHub. Please approve this. I spent a whole day making this.
 
 ## Code
 Here's the code for the Number Guessing Game:
