@@ -55,3 +55,14 @@ while tries < max_tries:
 
 if tries == max_tries and guess != x:
     print(f"Sorry, you have reached the maximum number of tries. The number I was thinking of was {x}.")
+
+
+## Demo
+![Screenshot 2024-06-19 130607](https://github.com/Hami-d-Raza/python-mini-project/assets/157746262/46a427cc-b79c-4451-919f-e4ff827bb53e)
+
+## Author
+This game is from Hamid Raza
+<br>
+This is my GitHub Profile( https://github.com/Hami-d-Raza ) 
+<br>
+I am a new user on GitHub and I don't know how to make branches and add them. Please approve this. I spent a whole day making this.
