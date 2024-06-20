@@ -274,21 +274,23 @@ class HangmanGame:
             else:
                 print("Please answer 'yes' or 'no'.")
 
-    def main(self):
+    def multiplayer_mode(self):
         """
-        Main function to run the Hangman game.
+        Allows the game to be played in multiplayer mode, alternating between players.
         """
-        playing = True
-        use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
-        custom_word_list = self.get_custom_word_list() if use_custom_list else self.word_list
+        player_count = int(input("Enter the number of players: "))
+        players = []
+        scores = {player: 0 for player in range(player_count)}
 
-        name = input("Enter your name: ")
-        print(f"Welcome {name}")
-        print("=====================")
-        print("Try to guess it in less than 10 attempts")
+        for i in range(player_count):
+            name = input(f"Enter player {i + 1} name: ")
+            players.append(name)
 
-        while playing:
-            self.choose_word(custom_word_list)
+        current_player_index = 0
+
+        while True:
+            current_player = players[current_player_index]
+            self.choose_word(self.word_list)
             self.display_word, self.wrong_attempts, self.guessed_words = self.initialize_game(self.word)
             self.hint_used = False
             start_time = time.time()
@@ -296,7 +298,8 @@ class HangmanGame:
             while not self.game_won() and not self.game_over():
                 print(self.display_hangman(self.wrong_attempts))
                 print("Word: " + " ".join(self.display_word))
-                guess = input(f"{name}, guess a letter or the whole word, or type 'hint' for a hint (you can use the hint only once): ").lower()
+                guess = input(
+                    f"{current_player}, guess a letter or the whole word, or type 'hint' for a hint (you can use the hint only once): ").lower()
 
                 if guess == "hint":
                     self.give_hint()
@@ -309,7 +312,9 @@ class HangmanGame:
                         elif len(guess) == len(self.word):
                             if guess == self.word:
                                 self.display_word = list(self.word)
-                                print(f"Congratulations {name}! You guessed the word: {''.join(self.display_word)}")
+                                print(
+                                    f"Congratulations {current_player}! You guessed the word: {''.join(self.display_word)}")
+                                scores[current_player_index] += 1
                                 break
                             else:
                                 self.guessed_words.append(guess)
@@ -323,16 +328,87 @@ class HangmanGame:
             end_time = time.time()
             time_taken = end_time - start_time
             self.update_statistics(won=self.game_won(), time_taken=time_taken)
-            self.update_leaderboard(name, won=self.game_won(), time_taken=time_taken)
+            self.update_leaderboard(current_player, won=self.game_won(), time_taken=time_taken)
 
             if not self.game_won():
                 print(self.display_hangman(self.wrong_attempts))
                 print(f"Game Over! The word was: {self.word}")
 
-            playing = self.try_again()
+            if not self.try_again():
+                break
+
+            current_player_index = (current_player_index + 1) % player_count
 
         self.display_statistics()
         self.display_leaderboard()
+        print("\nFinal Scores:")
+        for player in players:
+            print(f"{player}: {scores[players.index(player)]} points")
+
+    def main(self):
+        """
+        Main function to run the Hangman game.
+        """
+        playing = True
+        multiplayer = input("Do you want to play in multiplayer mode? (yes/no): ").lower() == "yes"
+        if multiplayer:
+            self.multiplayer_mode()
+        else:
+            use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
+            custom_word_list = self.get_custom_word_list() if use_custom_list else self.word_list
+
+            name = input("Enter your name: ")
+            print(f"Welcome {name}")
+            print("=====================")
+            print("Try to guess it in less than 10 attempts")
+
+            while playing:
+                self.choose_word(custom_word_list)
+                self.display_word, self.wrong_attempts, self.guessed_words = self.initialize_game(self.word)
+                self.hint_used = False
+                start_time = time.time()
+
+                while not self.game_won() and not self.game_over():
+                    print(self.display_hangman(self.wrong_attempts))
+                    print("Word: " + " ".join(self.display_word))
+                    guess = input(
+                        f"{name}, guess a letter or the whole word, or type 'hint' for a hint (you can use the hint only once): ").lower()
+
+                    if guess == "hint":
+                        self.give_hint()
+                    elif guess.isalpha():
+                        if guess in self.guessed_words:
+                            print("You have already guessed that letter or word.")
+                        else:
+                            if len(guess) == 1:
+                                self.update_game_state(guess)
+                            elif len(guess) == len(self.word):
+                                if guess == self.word:
+                                    self.display_word = list(self.word)
+                                    print(f"Congratulations {name}! You guessed the word: {''.join(self.display_word)}")
+                                    break
+                                else:
+                                    self.guessed_words.append(guess)
+                                    self.wrong_attempts += 1
+                                    print(f"Wrong! You have {self.max_attempts - self.wrong_attempts} attempts left.")
+                            else:
+                                print("Invalid input length. Please guess a single letter or the whole word.")
+                    else:
+                        print("Invalid input. Please guess a letter or the whole word, or type 'hint'.")
+
+                end_time = time.time()
+                time_taken = end_time - start_time
+                self.update_statistics(won=self.game_won(), time_taken=time_taken)
+                self.update_leaderboard(name, won=self.game_won(), time_taken=time_taken)
+
+                if not self.game_won():
+                    print(self.display_hangman(self.wrong_attempts))
+                    print(f"Game Over! The word was: {self.word}")
+
+                playing = self.try_again()
+
+            self.display_statistics()
+            self.display_leaderboard()
 
 
 if __name__ == "__main__":
