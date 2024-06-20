@@ -5,6 +5,12 @@ from words import word_list  # Import the default word list
 
 class HangmanGame:
     def __init__(self, word_list):
+        """
+        Initializes the HangmanGame class with a word list.
+
+        Parameters:
+            word_list (list): List of words with hints to use in the game.
+        """
         self.word_list = word_list
         self.word = ""
         self.hint = ""
@@ -18,6 +24,15 @@ class HangmanGame:
         self.leaderboard = []
 
     def display_hangman(self, attempts):
+        """
+        Returns the current hangman stage based on the number of wrong attempts.
+
+        Parameters:
+            attempts (int): Number of wrong attempts made by the player.
+
+        Returns:
+            str: The current stage of the hangman.
+        """
         stages = [
             """
                ------
@@ -86,6 +101,12 @@ class HangmanGame:
         return stages[min(attempts, len(stages) - 1)]
 
     def choose_word(self, word_list):
+        """
+        Chooses a word and hint randomly from the word list and initializes the game state.
+
+        Parameters:
+             word_list (list): List of words with hints to use in the game.
+        """
         chosen_word_info = random.choice(word_list)
         self.word = chosen_word_info["word"]
         self.hint = chosen_word_info["hint"]
@@ -94,9 +115,26 @@ class HangmanGame:
         self.start_time = time.time()
 
     def initialize_game(self, word):
+        """
+        Initializes the game state for a new word.
+
+        Parameters:
+            word (str): The word to be guessed.
+
+        Returns:
+            list: A list of underscores representing the word to be guessed.
+            int: Initial number of wrong attempts (0).
+            list: Initial list of guessed words (empty).
+        """
         return ["_"] * len(word), 0, []
 
     def update_game_state(self, guess):
+        """
+        Updates the game state based on the player's guess.
+
+        Parameters:
+            guess (str): The player's guessed letter or word.
+        """
         self.guessed_words.append(guess)
         correct_guess = False
 
@@ -116,6 +154,9 @@ class HangmanGame:
             print("Correct!")
 
     def give_hint(self):
+        """
+        Provides a hint for the current word if the hint has not been used yet.
+        """
         if self.hint_used:
             print("You have already used your hint!")
         else:
@@ -123,12 +164,31 @@ class HangmanGame:
             self.hint_used = True
 
     def game_won(self):
+        """
+        Checks if the game is won.
+
+        Returns:
+            bool: True if the game is won, False otherwise.
+        """
         return "_" not in self.display_word
 
     def game_over(self):
+        """
+        Checks if the game is over.
+
+        Returns:
+            bool: True if the game is over, False otherwise.
+        """
         return self.wrong_attempts >= self.max_attempts
 
     def update_statistics(self, won, time_taken):
+        """
+        Updates the game statistics based on the game result.
+
+        Parameters:
+            won (bool): True if the player won, False otherwise.
+            time_taken (float): Time taken to complete the game in seconds.
+        """
         self.statistics["games_played"] += 1
         self.statistics["total_time"] += time_taken
         if won:
@@ -137,6 +197,9 @@ class HangmanGame:
             self.statistics["games_lost"] += 1
 
     def display_statistics(self):
+        """
+        Displays the game statistics.
+        """
         print("\nStatistics:")
         print(f"Games Played: {self.statistics['games_played']}")
         print(f"Games Won: {self.statistics['games_won']}")
@@ -146,20 +209,45 @@ class HangmanGame:
             print(f"Average Time: {avg_time: .2f} seconds")
 
     def sort_key(self, entry):
-        # Sort by won status (True > False), then by time (ascending)
+        """
+        Key function for sorting leaderboard entries.
+
+        Parameters:
+            entry (dict): A leaderboard entry with 'name', 'won', and 'time' keys.
+
+        Returns:
+            tuple: Sorting key (won status, negative time).
+        """
         return entry["won"], -entry["time"]
 
     def update_leaderboard(self, name, won, time_taken):
+        """
+        Updates the leaderboard with the player's game result.
+
+        Parameters:
+            name (str): The player's name.
+            won (bool): True if the player won, False otherwise.
+            time_taken (float): Time taken to complete the game in seconds.
+        """
         self.leaderboard.append({"name": name, "won": won, "time": time_taken})
         self.leaderboard.sort(key=self.sort_key, reverse=True)
 
     def display_leaderboard(self):
+        """
+        Displays the leaderboard.
+        """
         print("\nLeaderboard:")
         for entry in self.leaderboard:
             status = "Won" if entry["won"] else "Lost"
             print(f"{entry['name']}: {status} in {entry['time']:.2f} seconds")
 
     def get_custom_word_list(self):
+        """
+        Prompts the player to enter a custom word list.
+
+        Returns:
+            list: Custom word list entered by the player.
+        """
         custom_word_list = []
         while True:
             word = input("Enter a word (or 'done' to finish): ").lower()
@@ -170,6 +258,12 @@ class HangmanGame:
         return custom_word_list
 
     def try_again(self):
+        """
+        Prompts the player to decide whether to play again.
+
+        Returns:
+            bool: True if the player wants to play again, False otherwise.
+        """
         while True:
             response = input("Do you want to play again? (yes/no): ").lower()
             if response == "yes":
@@ -181,6 +275,9 @@ class HangmanGame:
                 print("Please answer 'yes' or 'no'.")
 
     def main(self):
+        """
+        Main function to run the Hangman game.
+        """
         playing = True
         use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
         custom_word_list = self.get_custom_word_list() if use_custom_list else self.word_list
