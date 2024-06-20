@@ -141,7 +141,7 @@ class HangmanGame:
         if guess == self.word:
             self.display_word = list(self.word)
             correct_guess = True
-        else:
+        elif len(guess) == 1:
             for i, letter in enumerate(self.word):
                 if letter == guess:
                     self.display_word[i] = letter
@@ -296,18 +296,29 @@ class HangmanGame:
             while not self.game_won() and not self.game_over():
                 print(self.display_hangman(self.wrong_attempts))
                 print("Word: " + " ".join(self.display_word))
-                guess = input(f"{name}, guess the word or type 'hint' for a hint (you can use the hint only once): ").lower()
+                guess = input(f"{name}, guess a letter or the whole word, or type 'hint' for a hint (you can use the hint only once): ").lower()
 
                 if guess == "hint":
                     self.give_hint()
-                elif guess.isalpha() and guess == self.word:
-                    self.display_word = list(self.word)
-                    print(f"Congratulations {name}! You guessed the word: {''.join(self.display_word)}")
-                    break
                 elif guess.isalpha():
-                    self.update_game_state(guess)
+                    if guess in self.guessed_words:
+                        print("You have already guessed that letter or word.")
+                    else:
+                        if len(guess) == 1:
+                            self.update_game_state(guess)
+                        elif len(guess) == len(self.word):
+                            if guess == self.word:
+                                self.display_word = list(self.word)
+                                print(f"Congratulations {name}! You guessed the word: {''.join(self.display_word)}")
+                                break
+                            else:
+                                self.guessed_words.append(guess)
+                                self.wrong_attempts += 1
+                                print(f"Wrong! You have {self.max_attempts - self.wrong_attempts} attempts left.")
+                        else:
+                            print("Invalid input length. Please guess a single letter or the whole word.")
                 else:
-                    print("Invalid input. Please guess a word or type 'hint'.")
+                    print("Invalid input. Please guess a letter or the whole word, or type 'hint'.")
 
             end_time = time.time()
             time_taken = end_time - start_time
