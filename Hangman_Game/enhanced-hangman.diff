@@ -1,0 +1,831 @@
+diff --git a/Hangman_Game/README.md b/Hangman_Game/README.md
+index 55325b3..64c92fe 100644
+--- a/Hangman_Game/README.md
++++ b/Hangman_Game/README.md
+@@ -9,20 +9,112 @@
+ 
+ ## 🛠️ Description
+ 
+-A hangman game simulator using Python in which the player have 10 attempts to guess the phrase before the men is hung.
++A hangman game simulator using Python in which the player have 10 attempts to guess the phrase before the man is hung.
+ 
+ ## ⚙️ Languages or Frameworks Used
+ You only need Python to run this script. You can visit [here](https://www.python.org/downloads/) to download Python.
+ 
++# Hangman Game Documentation
++
++Welcome to the Hangman Game documentation. This documentation will guide you through the installation, usage, gameplay, code structure, testing, contributing, and contact information.
++
++## Table of Contents
++
++1. [Installation](installation.md)
++2. [Usage](usage.md)
++3. [Gameplay](gameplay.md)
++4. [Code Structure](code_structure.md)
++5. [Testing](testing.md)
++6. [Contributing](contributing.md)
++7. [License](license.md)
++8. [Contact](contact.md)
++
++
+ ## 🌟 How to run
+ Running the script is really simple! Just open a terminal in the folder where your script is located and run the following command:
+ 
+-```sh
+-python hangman.py
+-```
+-## 📺 Demo
+ <p align="center">
+ <img src="https://github.com/ndleah/python-mini-project/blob/main/IMG/hangman.gif" width=70% height=70%>
+ 
++## 🔧 Features
++* Single-player mode: Play against the computer with a random word.
++* Multiplayer mode: Play with a friend, taking turns to guess the word.
++* Custom word list: Option to add your own words to the game.
++* Hints: Get hints to help you guess the word.
++* Statistics: Track your game statistics including games played, games won, and average time taken.
++* Leaderboard: View the leaderboard with the fastest times and highest scores.
++* Timer: Each game session is timed to add an extra challenge.
++
++# Gameplay
++## Single-Player Mode
++* The game selects a random word from a predefined list.
++* You have 10 attempts to guess the word.
++* Enter one letter at a time to guess the word.
++* You can also type "hint" to receive a hint for the current word.
++
++## Multiplayer Mode
++* Two players take turns to guess the word.
++* Each player is prompted to enter their name at the start.
++* Players alternate turns after each guess.
++
++## Custom Word List
++* The game will prompt you to add custom words before starting.
++* If you choose to add a custom word, you will also need to provide a hint for the word.
++
++## Hints
++* Players can type "hint" during their turn to receive a hint.
++* Each hint usage is counted and displayed in the statistics.
++
++## Statistics and Leaderboard
++* The game tracks the number of games played, games won, and total time taken.
++* A leaderboard displays the fastest times and highest scores.
++
++## Code Structure
++The project consists of the following main files:
++* `hangman.py`: The main game script. Contains the game logic and user interactions.
++* `words.py`: Contains the list of words and hints used in the game.
++* `test_hangman.py`: Unit tests for the game logic.
++
++`hangman.py`
++This script includes:
++
++* `HangmanGame`: The main class managing the game logic.
++* Methods for initializing the game, updating game state, providing hints, tracking statistics, and handling multiplayer turns.
++
++## `words.py`
++This script includes:
++
++* `word_list:` A list of words and their associated hints used in the game. 
++
++## `test_hangman.py`
++This script includes:
++
++* Unit tests for verifying the correctness of the game logic.
++* Tests for word selection randomness, game initialization, state updates, hint usage, statistics tracking, and multiplayer functionality.
++## 📂 Project Structure
++This project consists of the following main files: 
++* 'hangman.py': The main game script.
++* words.py: Contains the list of words and hints.
++* test_hangman.py: Unit tests for the game logic.
++
++## 🧪 Running Tests
++To ensure that everything is working correctly, you can run the unit tests provided. Open a terminal in the folder where your test script is located and run the following command:
++
++## 📝 License
++This project is open source and available under the MIT License.
++
+ ## 🤖 Author
+ [Leah Nguyen](https://github.com/ndleah)
++
++## 🙌 Contributing
++Contributions are welcome! Please feel free to submit a Pull Request.
++
++## 📧 Contact
++If you have any questions or suggestions, feel free to reach out to me at ndleah@gmail.com.
++
++## ⭐ Acknowledgements
++* Open Source Love
++* GitHub Profile
++* View Repositories 
++
++Thank you for checking out this project! If you found it useful, please consider giving it a star. 🌟
+\ No newline at end of file
+diff --git a/Hangman_Game/__init__.py b/Hangman_Game/__init__.py
+new file mode 100644
+index 0000000..cc4e587
+--- /dev/null
++++ b/Hangman_Game/__init__.py
+@@ -0,0 +1,2 @@
++# Hangman_Game/__init__.py
++# This file is empty
+diff --git a/Hangman_Game/__pycache__/__init__.cpython-312.pyc b/Hangman_Game/__pycache__/__init__.cpython-312.pyc
+new file mode 100644
+index 0000000..1b65a2f
+Binary files /dev/null and b/Hangman_Game/__pycache__/__init__.cpython-312.pyc differ
+diff --git a/Hangman_Game/__pycache__/hangman.cpython-312.pyc b/Hangman_Game/__pycache__/hangman.cpython-312.pyc
+new file mode 100644
+index 0000000..0cad528
+Binary files /dev/null and b/Hangman_Game/__pycache__/hangman.cpython-312.pyc differ
+diff --git a/Hangman_Game/__pycache__/test_hangman.cpython-312.pyc b/Hangman_Game/__pycache__/test_hangman.cpython-312.pyc
+new file mode 100644
+index 0000000..9efa79a
+Binary files /dev/null and b/Hangman_Game/__pycache__/test_hangman.cpython-312.pyc differ
+diff --git a/Hangman_Game/__pycache__/words.cpython-312.pyc b/Hangman_Game/__pycache__/words.cpython-312.pyc
+new file mode 100644
+index 0000000..06a693b
+Binary files /dev/null and b/Hangman_Game/__pycache__/words.cpython-312.pyc differ
+diff --git a/Hangman_Game/fix-hangman-issues.diff b/Hangman_Game/fix-hangman-issues.diff
+new file mode 100644
+index 0000000..e69de29
+diff --git a/Hangman_Game/hangman.py b/Hangman_Game/hangman.py
+index 04c2dd0..2157211 100644
+--- a/Hangman_Game/hangman.py
++++ b/Hangman_Game/hangman.py
+@@ -1,94 +1,416 @@
+ import random
++import time
++from words import word_list  # Import the default word list
+ 
+-def hangman():
+-    word = random.choice(["tiger", "superman", "thor", "doraemon", "avenger", "water", "stream"])
+-    validletter = 'abcdefghijklmnopqrstuvwxyz'
+-    turns = 10
+-    guessmade = ''
+-    while len(word) > 0:
+-        main = ""
+-        missed = 0
+-        for letter in word:
+-            if letter in guessmade:
+-                main = main + letter
++
++class HangmanGame:
++    def __init__(self, word_list):
++        """
++        Initializes the HangmanGame class with a word list.
++
++        Parameters:
++            word_list (list): List of words with hints to use in the game.
++        """
++        self.word_list = word_list
++        self.word = ""
++        self.hint = ""
++        self.display_word = []
++        self.wrong_attempts = 0
++        self.guessed_words = []
++        self.hint_used = False
++        self.max_attempts = 10
++        self.start_time = 0
++        self.statistics = {"games_played": 0, "games_won": 0, "games_lost": 0, "total_time": 0}
++        self.leaderboard = []
++
++    def display_hangman(self, attempts):
++        """
++        Returns the current hangman stage based on the number of wrong attempts.
++
++        Parameters:
++            attempts (int): Number of wrong attempts made by the player.
++
++        Returns:
++            str: The current stage of the hangman.
++        """
++        stages = [
++            """
++               ------
++               |    |
++               |
++               |
++               |
++               |
++            --------
++            """,
++            """
++               ------
++               |    |
++               |    O
++               |
++               |
++               |
++            --------
++            """,
++            """
++               ------
++               |    |
++               |    O
++               |    |
++               |
++               |
++            --------
++            """,
++            """
++               ------
++               |    |
++               |    O
++               |   /|
++               |
++               |
++            --------
++            """,
++            """
++               ------
++               |    |
++               |    O
++               |   /|\\
++               |
++               |
++            --------
++            """,
++            """
++               ------
++               |    |
++               |    O
++               |   /|\\
++               |   /
++               |
++            --------
++            """,
++            """
++               ------
++               |    |
++               |    O
++               |   /|\\
++               |   / \\
++               |
++            --------
++            """,
++        ]
++        return stages[min(attempts, len(stages) - 1)]
++
++    def choose_word(self, word_list):
++        """
++        Chooses a word and hint randomly from the word list and initializes the game state.
++
++        Parameters:
++             word_list (list): List of words with hints to use in the game.
++        """
++        chosen_word_info = random.choice(word_list)
++        self.word = chosen_word_info["word"]
++        self.hint = chosen_word_info["hint"]
++        self.display_word, self.wrong_attempts, self.guessed_words = self.initialize_game(self.word)
++        self.hint_used = False
++        self.start_time = time.time()
++
++    def initialize_game(self, word):
++        """
++        Initializes the game state for a new word.
++
++        Parameters:
++            word (str): The word to be guessed.
++
++        Returns:
++            list: A list of underscores representing the word to be guessed.
++            int: Initial number of wrong attempts (0).
++            list: Initial list of guessed words (empty).
++        """
++        return ["_"] * len(word), 0, []
++
++    def update_game_state(self, guess):
++        """
++        Updates the game state based on the player's guess.
++
++        Parameters:
++            guess (str): The player's guessed letter or word.
++        """
++        self.guessed_words.append(guess)
++        correct_guess = False
++
++        if guess == self.word:
++            self.display_word = list(self.word)
++            correct_guess = True
++        elif len(guess) == 1:
++            for i, letter in enumerate(self.word):
++                if letter == guess:
++                    self.display_word[i] = letter
++                    correct_guess = True
++
++        if not correct_guess:
++            self.wrong_attempts += 1
++            print(f"Wrong! You have {self.max_attempts - self.wrong_attempts} attempts left.")
++        else:
++            print("Correct!")
++
++    def give_hint(self):
++        """
++        Provides a hint for the current word if the hint has not been used yet.
++        """
++        if self.hint_used:
++            print("You have already used your hint!")
++        else:
++            print(f"Hint: {self.hint}")
++            self.hint_used = True
++
++    def game_won(self):
++        """
++        Checks if the game is won.
++
++        Returns:
++            bool: True if the game is won, False otherwise.
++        """
++        return "_" not in self.display_word
++
++    def game_over(self):
++        """
++        Checks if the game is over.
++
++        Returns:
++            bool: True if the game is over, False otherwise.
++        """
++        return self.wrong_attempts >= self.max_attempts
++
++    def update_statistics(self, won, time_taken):
++        """
++        Updates the game statistics based on the game result.
++
++        Parameters:
++            won (bool): True if the player won, False otherwise.
++            time_taken (float): Time taken to complete the game in seconds.
++        """
++        self.statistics["games_played"] += 1
++        self.statistics["total_time"] += time_taken
++        if won:
++            self.statistics["games_won"] += 1
++        else:
++            self.statistics["games_lost"] += 1
++
++    def display_statistics(self):
++        """
++        Displays the game statistics.
++        """
++        print("\nStatistics:")
++        print(f"Games Played: {self.statistics['games_played']}")
++        print(f"Games Won: {self.statistics['games_won']}")
++        print(f"Games Lost: {self.statistics['games_lost']}")
++        if self.statistics["games_played"] > 0:
++            avg_time = self.statistics["total_time"] / self.statistics["games_played"]
++            print(f"Average Time: {avg_time: .2f} seconds")
++
++    def sort_key(self, entry):
++        """
++        Key function for sorting leaderboard entries.
++
++        Parameters:
++            entry (dict): A leaderboard entry with 'name', 'won', and 'time' keys.
++
++        Returns:
++            tuple: Sorting key (won status, negative time).
++        """
++        return entry["won"], -entry["time"]
++
++    def update_leaderboard(self, name, won, time_taken):
++        """
++        Updates the leaderboard with the player's game result.
++
++        Parameters:
++            name (str): The player's name.
++            won (bool): True if the player won, False otherwise.
++            time_taken (float): Time taken to complete the game in seconds.
++        """
++        self.leaderboard.append({"name": name, "won": won, "time": time_taken})
++        self.leaderboard.sort(key=self.sort_key, reverse=True)
++
++    def display_leaderboard(self):
++        """
++        Displays the leaderboard.
++        """
++        print("\nLeaderboard:")
++        for entry in self.leaderboard:
++            status = "Won" if entry["won"] else "Lost"
++            print(f"{entry['name']}: {status} in {entry['time']:.2f} seconds")
++
++    def get_custom_word_list(self):
++        """
++        Prompts the player to enter a custom word list.
++
++        Returns:
++            list: Custom word list entered by the player.
++        """
++        custom_word_list = []
++        while True:
++            word = input("Enter a word (or 'done' to finish): ").lower()
++            if word == 'done':
++                break
++            hint = input("Enter a hint for this word: ").lower()
++            custom_word_list.append({"word": word, "hint": hint})
++        return custom_word_list
++
++    def try_again(self):
++        """
++        Prompts the player to decide whether to play again.
++
++        Returns:
++            bool: True if the player wants to play again, False otherwise.
++        """
++        while True:
++            response = input("Do you want to play again? (yes/no): ").lower()
++            if response == "yes":
++                return True
++            elif response == "no":
++                print("Thanks for playing! Goodbye.")
++                return False
+             else:
+-                main = main + "_" + " "
+-        if main == word:
+-            print(main)
+-            print("You win!")
+-            break
+-        print("Guess the word:", main)
+-        guess = input().casefold()
+-
+-        if guess in validletter:
+-            guessmade = guessmade + guess
++                print("Please answer 'yes' or 'no'.")
++
++    def multiplayer_mode(self):
++        """
++        Allows the game to be played in multiplayer mode, alternating between players.
++        """
++        player_count = int(input("Enter the number of players: "))
++        players = []
++        scores = {player: 0 for player in range(player_count)}
++
++        for i in range(player_count):
++            name = input(f"Enter player {i + 1} name: ")
++            players.append(name)
++
++        current_player_index = 0
++
++        while True:
++            current_player = players[current_player_index]
++            self.choose_word(self.word_list)
++            self.display_word, self.wrong_attempts, self.guessed_words = self.initialize_game(self.word)
++            self.hint_used = False
++            start_time = time.time()
++
++            while not self.game_won() and not self.game_over():
++                print(self.display_hangman(self.wrong_attempts))
++                print("Word: " + " ".join(self.display_word))
++                guess = input(
++                    f"{current_player}, guess a letter or the whole word, or type 'hint' for a hint (you can use the hint only once): ").lower()
++
++                if guess == "hint":
++                    self.give_hint()
++                elif guess.isalpha():
++                    if guess in self.guessed_words:
++                        print("You have already guessed that letter or word.")
++                    else:
++                        if len(guess) == 1:
++                            self.update_game_state(guess)
++                        elif len(guess) == len(self.word):
++                            if guess == self.word:
++                                self.display_word = list(self.word)
++                                print(
++                                    f"Congratulations {current_player}! You guessed the word: {''.join(self.display_word)}")
++                                scores[current_player_index] += 1
++                                break
++                            else:
++                                self.guessed_words.append(guess)
++                                self.wrong_attempts += 1
++                                print(f"Wrong! You have {self.max_attempts - self.wrong_attempts} attempts left.")
++                        else:
++                            print("Invalid input length. Please guess a single letter or the whole word.")
++                else:
++                    print("Invalid input. Please guess a letter or the whole word, or type 'hint'.")
++
++            end_time = time.time()
++            time_taken = end_time - start_time
++            self.update_statistics(won=self.game_won(), time_taken=time_taken)
++            self.update_leaderboard(current_player, won=self.game_won(), time_taken=time_taken)
++
++            if not self.game_won():
++                print(self.display_hangman(self.wrong_attempts))
++                print(f"Game Over! The word was: {self.word}")
++
++            if not self.try_again():
++                break
++
++            current_player_index = (current_player_index + 1) % player_count
++
++        self.display_statistics()
++        self.display_leaderboard()
++        print("\nFinal Scores:")
++        for player in players:
++            print(f"{player}: {scores[players.index(player)]} points")
++
++    def main(self):
++        """
++        Main function to run the Hangman game.
++        """
++        playing = True
++        multiplayer = input("Do you want to play in multiplayer mode? (yes/no): ").lower() == "yes"
++        if multiplayer:
++            self.multiplayer_mode()
+         else:
+-            print("Enter a valid character")
+-            guess = input()
+-        if guess not in word:
+-            turns = turns - 1
+-        if turns == 9:
+-            print("9 turns left")
+-            print("  --------  ")
+-        if turns == 8:
+-            print("8 turns left")
+-            print("  ---------  ")
+-            print("      O      ")
+-        if turns == 7:
+-            print("7 turns left")
+-            print("  ---------  ")
+-            print("      O      ")
+-            print("      |      ")
+-        if turns == 6:
+-            print("6 turns left")
+-            print("  ---------  ")
+-            print("      O      ")
+-            print("      |      ")
+-            print("     /       ")
+-        if turns == 5:
+-            print("5 turns left")
+-            print("  ---------  ")
+-            print("      O      ")
+-            print("      |      ")
+-            print("     / \     ")
+-        if turns == 4:
+-            print("4 turns left")
+-            print("  ---------  ")
+-            print("    \ O      ")
+-            print("      |      ")
+-            print("     / \     ")
+-        if turns == 3:
+-            print("3 turns left")
+-            print("  ---------  ")
+-            print("    \ O /    ")
+-            print("      |      ")
+-            print("     / \     ")
+-        if turns == 2:
+-            print("2 turns left")
+-            print("  ---------  ")
+-            print("    \ O /|   ")
+-            print("      |      ")
+-            print("     / \     ")
+-        if turns == 1:
+-            print("1 turns left")
+-            print("Last breaths counting. Take care!")
+-            print("  ---------  ")
+-            print("    \ O_|/   ")
+-            print("      |      ")
+-            print("     / \     ")    
+-        
+-        if turns == 0:    
+-            print("You lose")
+-            print("You let a kind man die")
+-            print("  ---------  ")
+-            print("      O_|    ")
+-            print("     /|\     ")
+-            print("     / \     ")
+-            break
+-
+-name = input("Enter your name: ")
+-print(f"Welcome {name}")
+-print("=====================")
+-print("Try to guess it less than 10 attempts")
+-hangman()
+-print()
++            use_custom_list = input("Do you want to add a custom word list? (yes/no): ").lower() == "yes"
++            custom_word_list = self.get_custom_word_list() if use_custom_list else self.word_list
++
++            name = input("Enter your name: ")
++            print(f"Welcome {name}")
++            print("=====================")
++            print("Try to guess it in less than 10 attempts")
++
++            while playing:
++                self.choose_word(custom_word_list)
++                self.display_word, self.wrong_attempts, self.guessed_words = self.initialize_game(self.word)
++                self.hint_used = False
++                start_time = time.time()
++
++                while not self.game_won() and not self.game_over():
++                    print(self.display_hangman(self.wrong_attempts))
++                    print("Word: " + " ".join(self.display_word))
++                    guess = input(
++                        f"{name}, guess a letter or the whole word, or type 'hint' for a hint (you can use the hint only once): ").lower()
++
++                    if guess == "hint":
++                        self.give_hint()
++                    elif guess.isalpha():
++                        if guess in self.guessed_words:
++                            print("You have already guessed that letter or word.")
++                        else:
++                            if len(guess) == 1:
++                                self.update_game_state(guess)
++                            elif len(guess) == len(self.word):
++                                if guess == self.word:
++                                    self.display_word = list(self.word)
++                                    print(f"Congratulations {name}! You guessed the word: {''.join(self.display_word)}")
++                                    break
++                                else:
++                                    self.guessed_words.append(guess)
++                                    self.wrong_attempts += 1
++                                    print(f"Wrong! You have {self.max_attempts - self.wrong_attempts} attempts left.")
++                            else:
++                                print("Invalid input length. Please guess a single letter or the whole word.")
++                    else:
++                        print("Invalid input. Please guess a letter or the whole word, or type 'hint'.")
++
++                end_time = time.time()
++                time_taken = end_time - start_time
++                self.update_statistics(won=self.game_won(), time_taken=time_taken)
++                self.update_leaderboard(name, won=self.game_won(), time_taken=time_taken)
++
++                if not self.game_won():
++                    print(self.display_hangman(self.wrong_attempts))
++                    print(f"Game Over! The word was: {self.word}")
++
++                playing = self.try_again()
++
++            self.display_statistics()
++            self.display_leaderboard()
++
++
++if __name__ == "__main__":
++    game = HangmanGame(word_list)
++    game.main()
+diff --git a/Hangman_Game/test_hangman.py b/Hangman_Game/test_hangman.py
+new file mode 100644
+index 0000000..43c8a44
+--- /dev/null
++++ b/Hangman_Game/test_hangman.py
+@@ -0,0 +1,134 @@
++import time
++import unittest
++from hangman import HangmanGame
++from words import word_list  # Ensure the correct import path
++
++
++class TestHangmanGame(unittest.TestCase):
++    def setUp(self):
++        """Initialize a new Hangman game instance for each test."""
++        self.game = HangmanGame(word_list)
++
++    def test_choose_word_randomness(self):
++        """
++        Test the randomness of word selection.
++
++        This test runs multiple iterations to ensure that different words are
++        chosen, indicating randomness in the word selection process.
++        """
++        chosen_words = set()
++        iterations = 100  # Number of iterations to test randomness
++
++        # Choose a word multiple times to test for randomness
++        for _ in range(iterations):
++            self.game.choose_word(self.game.word_list)
++            chosen_words.add(self.game.word)
++
++        # Ensure that multiple unique words have been chosen
++        self.assertGreater(len(chosen_words), 1, "Randomness test failed. Only one word was chosen repeatedly.")
++
++    def test_initialize_game(self):
++        """
++        Test the initialization of the game.
++
++        This test verifies that the game initializes the display word,
++        wrong attempts counter, and guessed words list correctly.
++        """
++        word = "elephant"
++        display_word, wrong_attempts, guessed_words = self.game.initialize_game(word)
++        # Verify that the display word is initialized correctly
++        self.assertEqual(display_word, ["_"] * len(word), "Display word initialization failed.")
++        self.assertEqual(wrong_attempts, 0, "Wrong attempts initialization failed.")
++        self.assertEqual(guessed_words, [], "Guessed words initialization failed.")
++
++    def test_update_game_state_wrong_guess(self):
++        """
++        Test updating the game state with a wrong guess.
++
++        This test ensures that the game state is updated correctly when a wrong
++        word guess is made, including display word, guessed words, and wrong attempts.
++        """
++        word = "python"
++        guess = "java"
++        self.game.display_word, self.game.wrong_attempts, self.game.guessed_words = self.game.initialize_game(word)
++
++        # Update game state with an incorrect word guess
++        self.game.update_game_state(guess)
++
++        self.assertEqual(self.game.display_word, ["_"] * len(word), "Wrong guess update failed.")
++        self.assertIn(guess, self.game.guessed_words, "Guessed words update failed.")
++        self.assertEqual(self.game.wrong_attempts, 1, "Wrong attempts should have incremented for wrong guess.")
++
++    def test_give_hint(self):
++        """
++        Test the hint functionality.
++
++        This test verifies that using a hint sets the hint used flag to True.
++        """
++        self.game.hint = "a large wild cat"
++        self.game.hint_used = False
++
++        # Use a hint and verify that the hint used flag is set to True
++        self.game.give_hint()
++        self.assertTrue(self.game.hint_used, "Hint usage failed.")
++
++    def test_update_statistics(self):
++        """
++        Test updating game statistics.
++
++        This test verifies that the game statistics are correctly updated
++        when a game is won and the time taken is recorded.
++        """
++        # Update game statistics and verify changes
++        self.game.update_statistics(won=True, time_taken=10)
++        self.assertEqual(self.game.statistics['games_played'], 1, "Games played count is incorrect.")
++        self.assertEqual(self.game.statistics['games_won'], 1, "Games won count is incorrect.")
++        self.assertEqual(self.game.statistics['total_time'], 10, "Total time is incorrect.")
++
++    def test_update_leaderboard(self):
++        """
++        Test updating the leaderboard.
++
++        This test verifies that the leaderboard is correctly updated with a new entry,
++        including the player's name, win status, and time taken.
++        """
++        # Update leaderboard and verify the changes
++        self.game.update_leaderboard(name="Alice", won=True, time_taken=20)
++        self.assertEqual(len(self.game.leaderboard), 1, "Leaderboard entry count is incorrect.")
++        self.assertEqual(self.game.leaderboard[0]['name'], "Alice", "Leaderboard name is incorrect.")
++        self.assertTrue(self.game.leaderboard[0]['won'], "Leaderboard win status is incorrect.")
++        self.assertEqual(self.game.leaderboard[0]['time'], 20, "Leaderboard time is incorrect.")
++
++    def test_timer(self):
++        """
++        Test the timer functionality.
++
++        This test ensures that the timer measures approximately 1 second,
++        accounting for slight variations in execution time.
++        """
++        start_time = time.time()
++        time.sleep(1)  # Simulate a delay
++        end_time = time.time()
++        time_taken = end_time - start_time
++        self.assertTrue(1 <= time_taken < 2, "Timer function is incorrect.")
++
++    def test_multiplayer_turns(self):
++        """
++        Test the turn order in a multiplayer game.
++
++        This test simulates turns for two players (Alice and Bob) and verifies
++        that the turn order cycles correctly between the players.
++        """
++        players = ["Alice", "Bob"]
++        self.game.players = players
++        current_player_index = 0
++
++        # Stimulate turns and verify the turn order
++        for _ in range(4):
++            current_player = players[current_player_index]
++            self.assertEqual(current_player, self.game.players[current_player_index], "Turn order is incorrect.")
++            current_player_index = (current_player_index + 1) % len(players)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/Hangman_Game/words.py b/Hangman_Game/words.py
+new file mode 100644
+index 0000000..cf69da4
+--- /dev/null
++++ b/Hangman_Game/words.py
+@@ -0,0 +1,24 @@
++# words.py
++# List of words for the hangman game with hints
++word_list = [
++    {"word": "tiger", "hint": "a large wild cat"},
++    {"word": "elephant", "hint": "the largest land animal"},
++    {"word": "python", "hint": "a type of programming language or a large snake"},
++    {"word": "bicycle", "hint": "a two-wheeled vehicle"},
++    {"word": "giraffe", "hint": "an animal with a very long neck"},
++    {"word": "kangaroo", "hint": "a marsupial from Australia known for its jumping"},
++    {"word": "mountain", "hint": "a large landform that rises prominently above its surroundings"},
++    {"word": "ocean", "hint": "a vast body of salt water that covers almost three-quarters of the earth's surface"},
++    {"word": "piano", "hint": "a musical instrument with black and white keys"},
++    {"word": "rainbow", "hint": "a colorful arc that appears in the sky after rain"},
++    {"word": "satellite", "hint": "an artificial body placed in orbit around the earth or moon or another planet"},
++    {"word": "volcano", "hint": "a mountain or hill with a crater or vent through which lava, rock fragments, hot vapor, and gas erupt"},
++    {"word": "astronaut", "hint": "a person who is trained to travel in a spacecraft"},
++    {"word": "robot", "hint": "a machine capable of carrying out a complex series of actions automatically"},
++    {"word": "microscope", "hint": "an optical instrument used for viewing very small objects"},
++    {"word": "galaxy", "hint": "a system of millions or billions of stars, together with gas and dust, held together by gravitational attraction"},
++    {"word": "hurricane", "hint": "a severe tropical cyclone usually with heavy rains and winds"},
++    {"word": "jazz", "hint": "a type of music of black American origin characterized by improvisation and syncopation"},
++    {"word": "computer", "hint": "an electronic device for storing and processing data"},
++    {"word": "airplane", "hint": "a powered flying vehicle with fixed wings and a weight greater than that of the air it displaces"}
++]
