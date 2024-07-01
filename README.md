@@ -36,7 +36,7 @@ My goal is to build a common playground where everyone, from beginners to expert
 
 Let's "folk-ing" create amazing things together! 👉
 
-## ![image](IMG/game-ps.svg) Contributing
+# ![image](IMG/game-ps.svg) Contributing
 
 <details>
 <summary>
@@ -68,9 +68,7 @@ On the [GitHub page for this repository](https://github.com/ndleah/python-mini-p
 <summary>
 Step 3: Clone it
 </summary>
-
 - **Method 1:** GitHub Desktop
-
 > ⚠️ **NOTE:** If you're not familiar with Git, using **GitHub Desktop Application** is a better start. If you choose this method, make sure to download it before continuing reading.
 >
 > ❗❗ Access link to download [**here**](https://desktop.github.com).
