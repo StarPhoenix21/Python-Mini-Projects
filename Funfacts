@@ -1,0 +1,20 @@
+import random
+
+def main():
+    try:
+# UTF-8 is an encoding system for Unicode. 
+        with open("Facts.txt", "r", encoding='utf-8') as facts: # opening file
+            rf = facts.readlines() # reading file content
+
+        def random_line(rf): # function to randomize lines
+            return random.choice(rf)
+
+        print("Here is a random fun fact: ", random_line(rf).strip()) # picking the line throught the function
+
+    except IOError: # errors just in case
+        print("There was an error opening the file.")
+    except Exception as e:
+        print("An error occurred:", e)
+
+if __name__ == "__main__":
+    main()
