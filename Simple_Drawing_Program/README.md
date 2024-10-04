@@ -3,7 +3,7 @@ SmallDraw is a simple drawing program I wrote up to start learning the Pygame mo
 
 ### Prerequisites
 Please ensure that you have pygame installed to run this script!
-windows: run "pip install pygame" in the command prompt 
+For Windows: run "pip install pygame" in the command prompt 
 
 ### How to run the script
 After installing pygame, all you have to do is open the script and run the program to start using it!
