@@ -13,7 +13,7 @@ caterpillar.hideturtle()
 
 # Leaf setup
 leaf = t.Turtle()
-leaf_shape = ((0,0), (14,2), (18,6), (20,20), (6,18), (2,14))
+leaf_shape = ((0, 0), (14, 2), (18, 6), (20, 20), (6, 18), (2, 14))
 t.register_shape('leaf', leaf_shape)
 leaf.shape('leaf')
 leaf.color('green')
@@ -34,6 +34,7 @@ score_turtle.speed(0)
 # Game state variables
 game_started = False
 
+
 def outside_window():
     """Check if the caterpillar is outside the window."""
     left_wall = -t.window_width() / 2
@@ -44,6 +45,7 @@ def outside_window():
     outside = x < left_wall or x > right_wall or y > top_wall or y < bottom_wall
     return outside
 
+
 def game_over():
     """Handle game over scenario."""
     caterpillar.color('yellow')
@@ -52,6 +54,7 @@ def game_over():
     t.hideturtle()
     t.write('GAME OVER!', align='center', font=('Arial', 30, 'normal'))
     t.onkey(start_game, 'space')  # Allow the user to restart the game by pressing SPACE
+
 
 def display_score(current_score):
     """Display the score on the screen."""
@@ -62,12 +65,14 @@ def display_score(current_score):
     score_turtle.setpos(x, y)
     score_turtle.write(str(current_score), align='right', font=('Arial', 40, 'bold'))
 
+
 def place_leaf():
     """Randomly place the leaf on the screen."""
     leaf.hideturtle()
     leaf.setx(rd.randint(-200, 200))
     leaf.sety(rd.randint(-200, 200))
     leaf.showturtle()
+
 
 def start_game():
     """Start the game."""
@@ -111,21 +116,26 @@ def start_game():
             game_over()
             break
 
+
 def move_up():
     if caterpillar.heading() != 270:
         caterpillar.setheading(90)
+
 
 def move_down():
     if caterpillar.heading() != 90:
         caterpillar.setheading(270)
 
+
 def move_left():
     if caterpillar.heading() != 0:
         caterpillar.setheading(180)
 
+
 def move_right():
     if caterpillar.heading() != 180:
         caterpillar.setheading(0)
+
 
 def restart_game():
     """Restart the game when 'R' is pressed."""
@@ -139,6 +149,7 @@ def restart_game():
         t.clear()  # Clear any game over text
         start_game()
 
+
 # Bind keys
 t.onkey(start_game, 'space')
 t.onkey(restart_game, 'r')
@@ -149,5 +160,21 @@ t.onkey(move_left, 'Left')
 
 # Listen to the keyboard inputs
 t.listen()
-t.mainloop()
 
+# Add some assert-based tests for the game logic
+def test_outside_window():
+    """Test the outside_window function."""
+    # Move caterpillar to an out-of-bounds position
+    caterpillar.setpos(1000, 1000)
+    assert outside_window() == True, "Caterpillar should be outside the window."
+
+    # Move caterpillar to an in-bounds position
+    caterpillar.setpos(0, 0)
+    assert outside_window() == False, "Caterpillar should be inside the window."
+    print("test_outside_window passed.")
+
+# Run tests
+test_outside_window()
+
+# Start the main loop
+t.mainloop()
