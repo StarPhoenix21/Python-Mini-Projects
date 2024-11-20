@@ -14,8 +14,12 @@ email = input("Enter your email id - ")
 
 if isValidEmail(email):
     username = email[0:email.index('@')]
-    domain = email[email.index('@')+1: ]
+    SLdomain = email[email.index('@')+1:email.index('.')]
+    Tldomain = email[email.index('.'):]
+
+
     print("Username - ", username)
-    print("Domain - ", domain)
+    print("Domain: Second-Level - ", SLdomain)
+    print("Domain: Top-Level - ", Tldomain)
 else:
     print("Invalid Email!")
