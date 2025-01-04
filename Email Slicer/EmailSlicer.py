@@ -1,5 +1,5 @@
 import re
-
+#2025/01/04
 def validate_email(email: str) -> bool:
     """
     Validate an email address using a regular expression.
