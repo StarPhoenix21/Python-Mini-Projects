@@ -13,8 +13,7 @@ def isValidEmail(email):
 email = input("Enter your email id - ")
 
 if isValidEmail(email):
-    username = email[0:email.index('@')]
-    domain = email[email.index('@')+1: ]
+    username, domain = email.split('@')
     print("Username - ", username)
     print("Domain - ", domain)
 else:
