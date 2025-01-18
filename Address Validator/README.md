@@ -19,8 +19,6 @@ This program validates email addresses through multiple checks, including syntax
 
 Open the `AddressValidator.py` file with a Python IDE and hit run.
 
-## 📦 Requirements
-
 To install the necessary dependencies, use the following command:
 
 ```bash
