@@ -2,20 +2,6 @@ import re
 import dns.resolver  
 import idna
 
-# List of disposable email domains
-disposable_domains = [
-    "mailinator.com",
-    "10minutemail.com",
-    "guerrillamail.com",
-    "throwawaymail.com",
-    "getnada.com",
-    "maildrop.cc",
-    "temp-mail.com",
-    "fakemailgenerator.com",
-    "yopmail.com",
-    "jetable.com"
-]
-
 # Regular expression for basic email syntax validation
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
@@ -45,10 +31,6 @@ def is_valid_email(email):
 
     # Perform basic syntax validation
     if not re.match(email_regex, email):
-        return False
-
-    # Check if the domain is a disposable email domain
-    if is_disposable_domain(domain_part):
         return False
 
     # Validate the domain using DNS MX records
@@ -92,18 +74,6 @@ def validate_international_email(domain):
         return True
     except idna.IDNAError:
         return False
-
-def is_disposable_domain(domain):
-    """
-    Checks if the email domain belongs to a disposable domain.
-    
-    Args:
-        domain (str): The domain to check.
-    
-    Returns:
-        bool: True if the domain is disposable, False otherwise.
-    """
-    return domain in disposable_domains
 
 if __name__ == "__main__":
     email_input = input("Enter your email address: ")
