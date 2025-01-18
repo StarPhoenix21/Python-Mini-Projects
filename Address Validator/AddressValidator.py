@@ -1,5 +1,5 @@
 import re
-import dns.resolver  # Corrected import statement
+import dns.resolver  
 import idna
 
 # List of disposable email domains
