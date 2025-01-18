@@ -6,7 +6,7 @@
 
 ## 🛠️ Description
 
-This program validates email addresses through multiple checks, including syntax validation, disposable domain detection, and DNS MX record verification. It ensures that the email address contains an '@' symbol, checks for proper length constraints, and verifies that the domain is not from a disposable email service. The program also supports internationalized domain names, enhancing its usability for a global audience.
+This program validates email addresses through multiple checks, including syntax validation,  and DNS MX record verification. It ensures that the email address contains an '@' symbol, checks for proper length constraints, and verifies that the domain is not unauthorized email service. The program also supports internationalized domain names, enhancing its usability for a global audience.
 
 ## ⚙️ Languages and Packages Used
 
