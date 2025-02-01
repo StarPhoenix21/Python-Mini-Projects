@@ -1,0 +1,8 @@
+2025-02-01 18:06:14,487 - INFO - Program started
+2025-02-01 18:06:14,488 - ERROR - File not found: sample.txt
+2025-02-01 18:11:13,183 - INFO - Program started
+2025-02-01 18:11:13,184 - ERROR - File not found: sample.txt
+2025-02-01 18:16:15,139 - INFO - Program started
+2025-02-01 18:16:15,139 - INFO - Successfully read file: sample.txt
+2025-02-01 18:16:15,139 - INFO - Data successfully processed
+2025-02-01 18:16:15,139 - INFO - Program completed successfully

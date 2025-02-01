@@ -1,99 +1,59 @@
-import random
-import tkinter as tk
-from tkinter import messagebox
+import logging
+import os
 
-colours = ['Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Black', 'White']
-score = 0
-timeleft = 30
+# Configure logging
+logging.basicConfig(
+    filename="app.log",
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
-def next_colour():
-    global score, timeleft
-
-    if timeleft > 0:
-        user_input = e.get().lower()
-        correct_color = colours[1].lower()
-
-        if user_input == correct_color:
-            score += 1
-
-        e.delete(0, tk.END)
-        random.shuffle(colours)
-        label.config(fg=colours[1], text=colours[0])
-        score_label.config(text=f"Score: {score}")
-
-
-def countdown():
-    global timeleft
-    if timeleft > 0:
-        timeleft -= 1
-        time_label.config(text=f"Time left: {timeleft}")
-        time_label.after(1000, countdown)
-    else:
-    # messagebox.showwarning ('Attention', 'Your time is out!!')
-        scoreshow()
-        
-
-def record_highest_score():
-    highest_score = load_highest_score()
-    if score > highest_score:
-        with open("highest_score.txt", "w") as file:
-            file.write(str(score))
-    
-
-
-def load_highest_score():
+def read_file(filename):
+    """ Reads content from a file """
     try:
-        with open("highest_score.txt", "r") as file:
-            data = file.read()
-            if data:
-                return int(data)
-            else:
-                return 0
+        with open(filename, "r") as file:
+            content = file.read()
+            logging.info(f"Successfully read file: {filename}")
+            return content
     except FileNotFoundError:
-        return 0
+        logging.error(f"File not found: {filename}")
+        return "Error: File not found."
+    except Exception as e:
+        logging.error(f"Unexpected error while reading file: {e}")
+        return "Error: Unable to read file."
 
+def process_data(data):
+    """ Processes the data (dummy function) """
+    try:
+        if not data:
+            raise ValueError("No data provided for processing")
+        processed = data.upper()
+        logging.info("Data successfully processed")
+        return processed
+    except ValueError as ve:
+        logging.error(f"Processing error: {ve}")
+        return "Error: No valid data to process."
+    except Exception as e:
+        logging.error(f"Unexpected error in processing: {e}")
+        return "Error: Data processing failed."
 
-def scoreshow():
-    record_highest_score()
-    window2 = tk.Tk()
-    window2.title("HIGH SCORE")
-    window2.geometry("300x200")
+def main():
+    """ Main function that runs the program """
+    logging.info("Program started")
 
-    label = tk.Label(window2, text=f"Highest Score: {load_highest_score()}",font=(font, 12))
-   
-    label.pack()
+    filename = "sample.txt"
+    
+    # Read file content
+    file_content = read_file(filename)
+    if "Error" in file_content:
+        print(file_content)
+        return
 
-    window2.mainloop()
+    # Process file content
+    result = process_data(file_content)
+    print(result)
 
-def start_game(event):
-    global timeleft
-    if timeleft == 30:
-        countdown()
-    next_colour()
+    logging.info("Program completed successfully")
 
-window = tk.Tk()
-font = 'Helvetica'
-window.title("Color Game")
-window.iconbitmap("color_game_icon.ico")
-window.geometry("375x250")
-window.resizable(False, False)
-
-instructions = tk.Label(window, text="Enter the color of the text, not the word!", font=(font, 12))
-instructions.pack(pady=10)
-
-score_label = tk.Label(window, text="Press Enter to start", font=(font, 12))
-score_label.pack()
- 
-time_label = tk.Label(window, text=f"Time left: {timeleft}", font=(font, 12))
-time_label.pack()
-
-label = tk.Label(window, font=(font, 60))
-label.pack(pady=20)
-
-e = tk.Entry(window)
-window.bind('<Return>', start_game)
-e.pack()
-
-e.focus_set()
-
-window.mainloop()
+if __name__ == "__main__":
+    main()
