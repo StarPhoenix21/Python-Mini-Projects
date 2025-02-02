@@ -1,62 +1,43 @@
-from forex_python.converter import CurrencyRates, CurrencyCodes
-from requests.exceptions import ConnectionError
-from sys import argv
+import requests
 
-converter = CurrencyRates()
-codes = CurrencyCodes()
-
-def parse_arguments():
-    amount = 1
+def get_exchange_rate(from_currency, to_currency):
+    """ Fetches exchange rate from an API """
+    url = f"https://api.exchangerate-api.com/v4/latest/{from_currency}"
     try:
-        amount = float(argv[1])
-        del argv[1]
+        response = requests.get(url)
+        data = response.json()
+        return data['rates'].get(to_currency, None)
+    except Exception as e:
+        print("Error fetching exchange rate:", e)
+        return None
 
+def convert_currency(amount, from_currency, to_currency):
+    """ Converts the amount using real-time exchange rates """
+    rate = get_exchange_rate(from_currency, to_currency)
+    if rate:
+        converted_amount = amount * rate
+        return converted_amount
+    else:
+        return None
+
+def main():
+    """ Command-Line Interface for the Currency Converter """
+    print("\n🌍 Welcome to the Currency Converter 🌍")
+    print("=====================================")
+    
+    try:
+        amount = float(input("\nEnter the amount to convert: "))
+        from_currency = input("Enter the source currency (e.g., USD): ").upper()
+        to_currency = input("Enter the target currency (e.g., EUR): ").upper()
+
+        result = convert_currency(amount, from_currency, to_currency)
+        if result:
+            print(f"\n💰 {amount:.2f} {from_currency} = {result:.2f} {to_currency} 💰")
+        else:
+            print("\n❌ Error: Unable to fetch exchange rate. Please check your currency codes.")
     except ValueError:
-        #no amount entered
-        #default amount
-        pass
+        print("\n❌ Invalid amount. Please enter a numeric value.")
 
-    #argv:
-    #[0] - program name
-    #[1] - SRC
-    #[2] - 'to'
-    #[3] - DST
-    if len(argv) != 4 or argv[2] != 'to':
-        raise Exception
+if __name__ == "__main__":
+    main()
 
-    return amount, argv[1].upper(), argv[3].upper()
-
-
-#main
-#parse arguments
-usage = '[<amount>] <BASE> to <DESTINATION>'
-try:
-    amount, base, dest = parse_arguments()
-except:
-    print('usage:')
-    print(usage)
-    exit(1)
-
-#convert
-try:
-    base_symbol = codes.get_symbol(base)
-    dest_symbol = codes.get_symbol(dest)
-
-    #validate currencies
-    if base_symbol is None:
-        raise Exception(f'Currency {base} is invalid')
-    if dest_symbol is None:
-        raise Exception(f'Currency {dest} is invalid')
-
-    result = converter.convert(base_cur=base, dest_cur=dest, amount=amount)
-    result = round(result, 3)
-
-    print(f'{amount}{base_symbol} equals to {result}{dest_symbol}')
-
-except ConnectionError as e:
-    print('Connection error')
-    exit(1)
-
-except Exception as e:
-    print(e.args[0])
-    exit(1)
