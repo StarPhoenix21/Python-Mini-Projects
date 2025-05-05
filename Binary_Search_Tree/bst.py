@@ -10,10 +10,10 @@ class BST:
         # case for reaching current leafs, base cases
         if root.val < data and root.right == None:
             root.right = BST(data,None,None)
-            return "insertion completed"
+            return "Insertion completed"
         elif root.val > data and root.left == None:
             root.left = BST(data,None,None)
-            return "insertion completed"
+            return "Insertion completed"
         
         # else we continue tracing downwards
         if root.val < data:
@@ -21,7 +21,7 @@ class BST:
         elif root.val > data:
             return self.add(root.left,data)
         else:
-            return "insertion failed: duplicate value"
+            return "Insertion failed: duplicate value"
         
     def add(self,root,data):
         if root == None:
@@ -32,7 +32,7 @@ class BST:
         # base case: we reach a leaf
         if root == None or (root.left == None and root.right == None):
             root = None
-            return "restructure finished"
+            return "Restructure finished"
         
         # need dummy nodes to compare target value to children value
         v1 = float('-inf')
@@ -55,7 +55,7 @@ class BST:
     
     def removeHelper(self,root,data):
         if root == None:
-            return "deletion failed: could not find value"
+            return "Deletion failed: could not find value"
         
         # adhering to typical bst properties
         if root.val < data:
@@ -82,7 +82,7 @@ class BST:
             
     def remove(self,root,data):
         if root == None:
-            return "deletion failed: deleting from an empty tree"
+            return "Deletion failed: deleting from an empty tree"
         return self.removeHelper(root,data)
             
         
