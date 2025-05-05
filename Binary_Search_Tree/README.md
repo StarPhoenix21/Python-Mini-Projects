@@ -2,6 +2,7 @@
 
 # Binary Search Tree
 - Differ from a regular Binary Tree because of one key property: Nodes must be arranged in order
+  
   - the node's left subtree must have values less than the node
   - the node's right subtree must have values greater than the node
   - this is going based on that every value in the BST must be unique
