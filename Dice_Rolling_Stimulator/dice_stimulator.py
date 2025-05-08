@@ -1,71 +1,79 @@
 import random
-#CATEGORIZING OUTCOME INTO A LIST
 
-one =   """ 
-            ("===========")
-            ("|         |")
-            ("|    O    |")
-            ("|         |")
-            ("===========")\n  
-        
-        """
-
-two =   """ 
-            ("===========")
-            ("|         |")
-            ("| O     O |")
-            ("|         |")
-            ("===========")\n  
-        
-        """
-
-
-
-three =   """ 
-            ("===========")
-            ("|    O    |")
-            ("|    O    |")
-            ("|    O    |")
-            ("===========")\n  
-        
-        """
-
-four =   """ 
-            ("===========")
-            ("|  O    O |")
-            ("|     0   |")
-            ("|  O    O |")
-            ("===========")\n  
-        
-        """
-
-five =   """ 
-            ("===========")
-            ("| O     O |")
-            ("|    0    |")
-            ("| O     O |")
-            ("===========")\n  
-        
-        """
-
-six =  """
-            ("===========") 
-            ("| O     O |")
-            ("| O     O |")
-            ("| O     O |")
-            ("===========") \n      
-        """
-
-
-
-outcomes_list = [one, two, three, four, five, six]
-
-
-print("This is a dice stimulator")
-x = "y"
-while x == "y":
-    randon_outcome = random.sample(outcomes_list, 2)
-    for outcome in randon_outcome:
-        print(outcome)
+class DiceSimulator:
+    """
+    A class to simulate rolling two dice.
     
-    x =  input("Press y to roll again ")
+    Features:
+    - Randomly rolls two dice with ASCII representation.
+    - Offers user the option to roll again or quit.
+    """
+
+    dice_faces = [
+        """ 
+        ===========
+        |         |
+        |    O    |
+        |         |
+        ===========
+        """,
+        """ 
+        ===========
+        | O       |
+        |         |
+        |       O |
+        ===========
+        """,
+        """ 
+        ===========
+        | O       |
+        |    O    |
+        |       O |
+        ===========
+        """,
+        """ 
+        ===========
+        | O     O |
+        |         |
+        | O     O |
+        ===========
+        """,
+        """ 
+        ===========
+        | O     O |
+        |    O    |
+        | O     O |
+        ===========
+        """,
+        """ 
+        ===========
+        | O     O |
+        | O     O |
+        | O     O |
+        ===========
+        """
+    ]
+
+    def roll_dice(self):
+        """
+        Rolls two dice and prints their ASCII representation.
+        """
+        dice_rolls = random.choices(self.dice_faces, k=2)
+        for die in dice_rolls:
+            print(die)
+
+    def start_game(self):
+        """
+        Starts the dice rolling game, giving the user the option to roll again.
+        """
+        print("🎲 Welcome to the Dice Simulator! 🎲")
+        while True:
+            self.roll_dice()
+            choice = input("Do you want to roll again? (y/n): ").strip().lower()
+            if choice != 'y':
+                print("Thanks for playing! Goodbye!")
+                break
+
+if __name__ == "__main__":
+    game = DiceSimulator()
+    game.start_game()
