@@ -8,3 +8,5 @@
 /.vs
 /Tic_Tac_Toe/tic_tac_toe -OOP.py
 /.vscode
+Converter/converter.py
+Converter/converter_gui.py
