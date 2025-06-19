@@ -30,7 +30,7 @@ To stop the script, press `CTRL + C`.
 
 Below is a demo of the Habit Tracker in action:
 
-<img src="assets/colorgame.png" width=40% height=40%>
+<img src="./assets/habi_tracker.png" width=100% height=80%>
 
 ## 🤖 Author
 
