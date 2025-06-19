@@ -1,4 +1,4 @@
-def addressVal(address):
+def address_val(address):
     dot = address.find(".")
     at = address.find("@")
     if (dot == -1):
@@ -13,4 +13,4 @@ while(True):
     print("A valid email address needs an '@' symbol and a '.'")
     x = input("Input your email address:")
 
-    addressVal(x)
+    address_val(x)
