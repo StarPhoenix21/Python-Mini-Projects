@@ -1,6 +1,8 @@
 import os
-import pytube
-from moviepy.editor import *
+import pytubefix as pytube
+from moviepy import *
+#from moviepy.editor import *
+
 
 # Define the YouTube video URL
 youtube_url = "https://www.youtube.com/watch?v=E6eKvji_BoE"
@@ -14,7 +16,7 @@ temp_file = audio_stream.download()
 
 # Convert the audio stream to an MP3 file using MoviePy
 audio_clip = AudioFileClip(temp_file)
-mp3_file = os.path.join("Give Your own path", "Name.mp3")
+mp3_file = os.path.join("/home/anjali/", "test.mp3")
 audio_clip.write_audiofile(mp3_file)
 
 # Clean up the temporary file
