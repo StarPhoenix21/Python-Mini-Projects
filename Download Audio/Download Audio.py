@@ -1,6 +1,6 @@
 import os
-import pytube
-from moviepy.editor import *
+import pytubefix as pytube
+from moviepy import *
 
 # Define the YouTube video URL
 youtube_url = "https://www.youtube.com/watch?v=E6eKvji_BoE"
