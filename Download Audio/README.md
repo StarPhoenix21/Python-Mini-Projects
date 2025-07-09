@@ -21,7 +21,7 @@ This is a python script that downloads audio files directly from youtube videos.
 This script is written in Python language. So make sure you have python installed in your computer. Two modules of python are used in this script to install those follow below steps
 1. Open cmd prompt
 2. write "pip install moviepy"
-3. write "pip install pytube" 
+3. write "pip install pytubefix 
 ## 🌟 How to run
 <!--Remove the below lines and add yours -->
 - Open the Download Audio.py script
