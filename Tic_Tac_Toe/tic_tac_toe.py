@@ -1,180 +1,410 @@
-#cheat : high chance Win Strategy =>   1 - 8 - 6 - 5 - 4
-#new version
-import os
+import tkinter as t
+import random
 
-#initialize 
-board = [' ' for x in range(10)]
-FirstRun = True
-
-#insert tic tac toe symbol to screen
-def insertLetter(letter,pos):
-    if(board.count(' ') >= 1):
-        board[pos] = letter
-
-def spaceIsFree(pos):
-    return board[pos] == ' '
-
-def printBoard(board):
-    print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
-    print('-----------')
-    print(' ' + board[4] + ' | ' + board[5] + ' | ' + board[6])
-    print('-----------')
-    print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
-
-def isBoardFull(board):
-    if board.count(' ') >= 2:
-        return False
-    else:
-        return True
-
-
-def IsWinner(b,l):
-    return(
-    (b[1] == l and b[2] == l and b[3] == l) or
-    (b[4] == l and b[5] == l and b[6] == l) or
-    (b[7] == l and b[8] == l and b[9] == l) or
-    (b[1] == l and b[4] == l and b[7] == l) or
-    (b[2] == l and b[5] == l and b[8] == l) or
-    (b[3] == l and b[6] == l and b[9] == l) or
-    (b[1] == l and b[5] == l and b[9] == l) or
-    (b[3] == l and b[5] == l and b[7] == l)
-    )
-
-def playerMove():
-    run = True
-    while run:
-        move = input("please select a position to enter the X between 1 to 9: ")
-        try:
-            move = int(move)
-            if move > 0 and move < 10:
-                if spaceIsFree(move):
-                    run = False
-                    insertLetter('X', move)
-                else:
-                    print('Sorry, this space is occupied')
-            else:
-                print('please type a number between 1 and 9')
+root=t.Tk()
+tur=0
+def click(event):
+    global tur
+    tur=1
+    button1=event.widget
+    n1=str(button1)
+    n=n1[-1]
+    print(n)
+    print(f"turn {tur}")
+    if button1["text"]==" ":
+        if tur==1:
+            button1["text"]='X'
+            tur=0
         
-        except:
-            print('Please type a number')
+    if tur==0:
+        while(True):
+            bv=["n","2","3","4","6","7","8","9"]
+            a=random.choices(bv)
+            c=str(a)
+            d=c[2]
+            # d="1"
+            # Win confirm
+            if b1["text"]=='O' and b2["text"]=='O' and b3["text"]!='O' and b3["text"]!='X':
+                d="3" 
+            elif b4["text"]=='O' and b5["text"]=='O' and b6["text"]!='O' and b6["text"]!='X':
+                d="6" 
+            elif b7["text"]=='O' and b8["text"]=='O' and b9["text"]!='O' and b9["text"]!='X':
+                d="9" 
+            elif b1["text"]=='O' and b3["text"]=='O' and b2["text"]!='O' and b2["text"]!='X':
+                d="2" 
+            elif b4["text"]=='O' and b6["text"]=='O' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b7["text"]=='O' and b9["text"]=='O' and b8["text"]!='O' and b8["text"]!='X':
+                d="8" 
+            elif b2["text"]=='O' and b3["text"]=='O' and b1["text"]!='O' and b1["text"]!='X':
+                d="1" 
+            elif b5["text"]=='O' and b6["text"]=='O' and b4["text"]!='O' and b4["text"]!='X':
+                d="4" 
+            elif b8["text"]=='O' and b9["text"]=='O' and b7["text"]!='O' and b7["text"]!='X':
+                d="7" 
+            elif b1["text"]=='O' and b4["text"]=='O' and b7["text"]!='O' and b7["text"]!='X':
+                d="7" 
+            elif b2["text"]=='O' and b5["text"]=='O' and b8["text"]!='O' and b8["text"]!='X':
+                d="8" 
+            elif b3["text"]=='O' and b6["text"]=='O' and b9["text"]!='O' and b9["text"]!='X':
+                d="9" 
+            elif b1["text"]=='O' and b7["text"]=='O' and b4["text"]!='O' and b4["text"]!='X':
+                d="4" 
+            elif b2["text"]=='O' and b8["text"]=='O' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b3["text"]=='O' and b9["text"]=='O' and b6["text"]!='O' and b6["text"]!='X':
+                d="6" 
+            elif b4["text"]=='O' and b7["text"]=='O' and b1["text"]!='O' and b1["text"]!='X':
+                d="1" 
+            elif b5["text"]=='O' and b8["text"]=='O' and b2["text"]!='O' and b2["text"]!='X':
+                d="2" 
+            elif b6["text"]=='O' and b9["text"]=='O' and b3["text"]!='O' and b3["text"]!='X':
+                d="3" 
+            elif b1["text"]=='O' and b5["text"]=='O' and b9["text"]!='O' and b9["text"]!='X':
+                d="9"
+            elif b3["text"]=='O' and b5["text"]=='O' and b7["text"]!='O' and b7["text"]!='X':
+                d="7" 
+            elif b1["text"]=='O' and b9["text"]=='O' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b3["text"]=='O' and b7["text"]=='O' and b5["text"]!='O' and b5["text"]!='X':
+                d="5"
+            elif b5["text"]=='O' and b9["text"]=='O' and b1["text"]!='O' and b1["text"]!='X':
+                d="1"
+            elif b5["text"]=='O' and b7["text"]=='O' and b3["text"]!='O' and b3["text"]!='X':
+                d="3"
+            # protect from coner trick
+            elif b1["text"]=='X' and b9["text"]=='X' and b2["text"]==" ":
+                d="2"
+            elif b1["text"]=='X' and b9["text"]=='X' and b4["text"]==" ":
+                d="4"
+            elif b1["text"]=='X' and b9["text"]=='X' and b6["text"]==" ":
+                d="6"
+            elif b1["text"]=='X' and b9["text"]=='X' and b8["text"]==" ":
+                d="8"
+            elif b3["text"]=='X' and b7["text"]=='X' and b2["text"]==" ":
+                d="2"
+            elif b3["text"]=='X' and b7["text"]=='X' and b4["text"]==" ":
+                d="4"
+            elif b3["text"]=='X' and b7["text"]=='X' and b6["text"]==" ":
+                d="6"
+            elif b3["text"]=='X' and b7["text"]=='X' and b8["text"]==" ":
+                d="8"
+            # not let to win
 
-def computerMove():
-    possibleMoves = [ x for x, letter in enumerate(board) if letter == ' ' and x != 0]
-    move = 0
+            elif b1["text"]=='X' and b2["text"]=='X' and b3["text"]!='O':
+                d="3"
+            elif b4["text"]=='X' and b5["text"]=='X' and b6["text"]!='O':
+                d="6"
+            elif b7["text"]=='X' and b8["text"]=='X' and b9["text"]!='O':
+                d="9"
+            elif b1["text"]=='X' and b3["text"]=='X' and b2["text"]!='O':
+                d="2"
+            elif b4["text"]=='X' and b6["text"]=='X' and b5["text"]!='O':
+                d="5"
+            elif b7["text"]=='X' and b9["text"]=='X' and b8["text"]!='O':
+                d="8"
+            elif b2["text"]=='X' and b3["text"]=='X' and b1["text"]!='O':
+                d="n"
+            elif b5["text"]=='X' and b6["text"]=='X' and b4["text"]!='O':
+                d="4"
+            elif b8["text"]=='X' and b9["text"]=='X' and b7["text"]!='O':
+                d="7"
+            elif b1["text"]=='X' and b4["text"]=='X' and b7["text"]!='O':
+                d="7"
+            elif b2["text"]=='X' and b5["text"]=='X' and b8["text"]!='O':
+                d="8"
+            elif b3["text"]=='X' and b6["text"]=='X' and b9["text"]!='O':
+                d="9"
+            elif b1["text"]=='X' and b7["text"]=='X' and b4["text"]!='O':
+                d="4"
+            elif b2["text"]=='X' and b8["text"]=='X' and b5["text"]!='O':
+                d="5"
+            elif b3["text"]=='X' and b9["text"]=='X' and b6["text"]!='O':
+                d="6"
+            elif b4["text"]=='X' and b7["text"]=='X' and b1["text"]!='O':
+                d="1"
+            elif b5["text"]=='X' and b8["text"]=='X' and b2["text"]!='O':
+                d="2"
+            elif b6["text"]=='X' and b9["text"]=='X' and b3["text"]!='O':
+                d="3"
+            elif b1["text"]=='X' and b5["text"]=='X' and b9["text"]!='O':
+                d="9"
+            elif b3["text"]=='X' and b5["text"]=='X' and b7["text"]!='O':
+                d="7"
+            elif b1["text"]=='X' and b9["text"]=='X' and b5["text"]!='O':
+                d="5"
+            elif b3["text"]=='X' and b7["text"]=='X' and b5["text"]!='O':
+                d="5"
+            elif b5["text"]=='X' and b9["text"]=='X' and b1["text"]!='O':
+                d="n"
+            elif b5["text"]=='X' and b7["text"]=='X' and b3["text"]!='O':
+                d="3"
 
-    for let in ['O', 'X']:
-        for i in possibleMoves:
-            boardcopy = board[:]
-            boardcopy[i] = let
-            if IsWinner(boardcopy, let):
-                move = i
-                return move
+            # placing to win
+            #other then center 
+            elif b5["text"]=='X' and b1["text"]!='O' and b1["text"]!='X':
+                d="1" 
+            elif b5["text"]=='X' and b3["text"]!='O' and b3["text"]!='X':
+                d="3" 
+            elif b5["text"]=='X' and b7["text"]!='O' and b7["text"]!='X':
+                d="7" 
+            elif b5["text"]=='X' and b9["text"]!='O' and b9["text"]!='X':
+                d="9" 
+            # center control
+            elif b1["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b2["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b3["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b4["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b6["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b7["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b8["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5" 
+            elif b9["text"]=='X' and b5["text"]!='O' and b5["text"]!='X':
+                d="5"
 
-    cornersOpen = []
-    for i in possibleMoves:
-        if i in [1, 3, 7, 9]:
-            cornersOpen.append(i)
+            if d=="n" and b1["text"]==" ":
+             b1["text"]='O'
+             tur=1
+             break
+            elif d=="2" and b2["text"]==" ":
+             b2["text"]='O'
+             tur=1
+             break
+            elif d=="3" and b3["text"]==" ":
+             b3["text"]='O'
+             tur=1
+             break
+            elif d=="4" and b4["text"]==" ":
+             b4["text"]='O'
+             tur=1
+             break
+            elif d=="5" and b5["text"]==" ":
+             b5["text"]='O'
+             tur=1
+             break
+            elif d=="6" and b6["text"]==" ":
+             b6["text"]='O'
+             tur=1
+             break
+            elif d=="7" and b7["text"]==" ":
+             b7["text"]='O'
+             tur=1
+             break
+            elif d=="8" and b8["text"]==" ":
+             b8["text"]='O'
+             tur=1
+             break
+            elif d=="9" and b9["text"]==" ":
+             b9["text"]='O'
+             tur=1
+             break
+            elif b1["text"]>='O' and b2["text"]>='O' and b3["text"]>='O' and b4["text"]>='O' and b5["text"]>='O' and b6["text"]>='O' and b7["text"]>='O' and b8["text"]>='O' and b9["text"]>='O':
+              b4["text"]=""
+              b5["text"]=""
+              b6["text"]=""
+              b1["text"]=""
+              b2["text"]=""
+              b3["text"]=""
+              b7["text"]=""
+              b8["text"]=""
+              b9["text"]=""
+              i=t.Label(root,text="No won",font=("",20))
+              i.pack() 
+              break
+    if b1["text"]=='X' and b2["text"]=='X' and b3["text"]=='X':
+          b4["text"]=""
+          b5["text"]=""
+          b6["text"]=""
+          b7["text"]=""
+          b8["text"]=""
+          b9["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()
+    elif b4["text"]=='X' and b5["text"]=='X' and b6["text"]=='X':
+          b1["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          b7["text"]=""
+          b8["text"]=""
+          b9["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()  
+    elif b7["text"]=='X' and b8["text"]=='X' and b9["text"]=='X':
+          b4["text"]=""
+          b5["text"]=""
+          b6["text"]=""
+          b1["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()
+    elif b1["text"]=='X' and b4["text"]=='X' and b7["text"]=='X':
+          b8["text"]=""
+          b5["text"]=""
+          b6["text"]=""
+          b9["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()
+    elif b2["text"]=='X' and b5["text"]=='X' and b8["text"]=='X':
+          b4["text"]=""
+          b9["text"]=""
+          b6["text"]=""
+          b1["text"]=""
+          b7["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()
+    elif b3["text"]=='X' and b6["text"]=='X' and b9["text"]=='X':
+          b4["text"]=""
+          b5["text"]=""
+          b8["text"]=""
+          b1["text"]=""
+          b2["text"]=""
+          b7["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()
+    elif b1["text"]=='X' and b5["text"]=='X' and b9["text"]=='X':
+          b4["text"]=""
+          b8["text"]=""
+          b6["text"]=""
+          b7["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()
+    elif b3["text"]=='X' and b5["text"]=='X' and b7["text"]=='X':
+          b4["text"]=""
+          b8["text"]=""
+          b6["text"]=""
+          b1["text"]=""
+          b2["text"]=""
+          b9["text"]=""
+          i=t.Label(root,text="X won",font=("",20))
+          i.pack()    
+    elif b1["text"]=='O' and b2["text"]=='O' and b3["text"]=='O':
+          b4["text"]=""
+          b5["text"]=""
+          b6["text"]=""
+          b7["text"]=""
+          b8["text"]=""
+          b9["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack()
+    elif b4["text"]=='O' and b5["text"]=='O' and b6["text"]=='O':
+          b1["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          b7["text"]=""
+          b8["text"]=""
+          b9["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack()  
+    elif b7["text"]=='O' and b8["text"]=='O' and b9["text"]=='O':
+          b4["text"]=""
+          b5["text"]=""
+          b6["text"]=""
+          b1["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack()
+    elif b1["text"]=='O' and b4["text"]=='O' and b7["text"]=='O':
+          b8["text"]=""
+          b5["text"]=""
+          b6["text"]=""
+          b9["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack()
+    elif b2["text"]=='O' and b5["text"]=='O' and b8["text"]=='O':
+          b4["text"]=""
+          b9["text"]=""
+          b6["text"]=""
+          b1["text"]=""
+          b7["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack()
+    elif b3["text"]=='O' and b6["text"]=='O' and b9["text"]=='O':
+          b4["text"]=""
+          b5["text"]=""
+          b8["text"]=""
+          b1["text"]=""
+          b2["text"]=""
+          b7["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack()
+    elif b1["text"]=='O' and b5["text"]=='O' and b9["text"]=='O':
+          b4["text"]=""
+          b8["text"]=""
+          b6["text"]=""
+          b7["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack()
+    elif b3["text"]=='O' and b5["text"]=='O' and b7["text"]=='O':
+          b4["text"]=""
+          b8["text"]=""
+          b6["text"]=""
+          b1["text"]=""
+          b2["text"]=""
+          b9["text"]=""
+          i=t.Label(root,text="O won",font=("",20))
+          i.pack() 
+    elif b1["text"]>='O' and b2["text"]>='O' and b3["text"]>='O' and b4["text"]>='O' and b5["text"]>='O' and b6["text"]>='O' and b7["text"]>='O' and b8["text"]>='O' and b9["text"]>='O':
+          b4["text"]=""
+          b5["text"]=""
+          b6["text"]=""
+          b1["text"]=""
+          b2["text"]=""
+          b3["text"]=""
+          b7["text"]=""
+          b8["text"]=""
+          b9["text"]=""
+          i=t.Label(root,text="No won",font=("",20))
+          i.pack() 
+root.geometry("500x600")
+root.title("TIC-TAE-TOE")
+c=t.Canvas(width=800,height=700,bg="lightblue")
+f=t.Frame(c)
+b1=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b1.grid(row=0,column=0)
+b1.bind("<Button-1>",click)
+b2=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b2.grid(row=0,column=1)
+b2.bind("<Button-1>",click)
+b3=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b3.grid(row=0,column=2)
+b3.bind("<Button-1>",click)
+b4=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b4.grid(row=1,column=0)
+b4.bind("<Button-1>",click)
+b5=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b5.grid(row=1,column=1)
+b5.bind("<Button-1>",click)
+b6=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b6.grid(row=1,column=2)
+b6.bind("<Button-1>",click)
+b7=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b7.grid(row=2,column=0)
+b7.bind("<Button-1>",click)
+b8=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b8.grid(row=2,column=1)
+b8.bind("<Button-1>",click)
+b9=t.Button(f,text=" ",padx=30,pady=30,font=("",30))
+b9.grid(row=2,column=2)
+b9.bind("<Button-1>",click)
+f.pack()
+c.pack()
 
-    if len(cornersOpen) > 0:
-        move = selectRandom(cornersOpen)
-        return move
-
-    if 5 in possibleMoves:
-        move = 5
-        return move
-
-    edgesOpen = []
-    for i in possibleMoves:
-        if i in [2, 4, 6, 8]:
-            edgesOpen.append(i)
-
-    if len(edgesOpen) > 0:
-        move = selectRandom(edgesOpen)
-        return move
-
-def selectRandom(li):
-    import random
-    ln = len(li)
-    r = random.randrange(0, ln)
-    return li[r]
-
-def StartTheGame():
-    global board
-    board = [' ' for x in range(10)]
-    CleanScreen()
-    print('-------------------------')
-    GamePlay()
-
-#clean Old data in screen when event occur
-def CleanScreen():
-    #Linux and macOS
-    if(os.name == 'posix'):
-         os.system('clear') 
-    #windows
-    else:
-         os.system('cls')
-
-
-
-#check Tie Game condition
-def TieGame():
-    
-    if isBoardFull(board) and (not((IsWinner(board, 'X')) or (IsWinner(board, 'O')))):
-        return True
-    else:
-        return False
-
-#Score Count
-scorecount = 0
-#gameplay design here
-def GamePlay():
-    global scorecount
-    if scorecount == 0:
-        #if the game is first time ran
-        print("Welcome to the game!")
-    if scorecount < 0:
-        #if the score is negative, set it to 0
-        scorecount = 0
-    printBoard(board)
-
-    while not(isBoardFull(board)):
-        
-        if not(IsWinner(board, 'O')) :
-            playerMove()
-            CleanScreen()
-            printBoard(board)
-        else:
-            scorecount -= 1
-            print(f"Sorry, you lose 😢! Your Score is {scorecount}")
-            break
-
-        if (not(IsWinner(board, 'X'))) :
-            move = computerMove()
-            if move == 0:
-                print(" ")
-            elif not(isBoardFull(board)):
-                insertLetter('O', move)
-                print('computer placed an o on position', move, ':')
-                CleanScreen()
-                printBoard(board)
-        else:
-            scorecount += 1
-            print(f"You win! Your Score is {scorecount}")
-            break     
-        
-
-while True:
-    if FirstRun:
-        FirstRun=False
-        StartTheGame()
-
-    else :
-        if TieGame():
-            print("It's a tie!")
-        x = input("Do you want to play again? (y/n)")
-        if x.lower() == 'y' or x.lower() =='yes':
-            StartTheGame()
-        
-        else:
-            print("GLHF")
-            break
+root.mainloop()
