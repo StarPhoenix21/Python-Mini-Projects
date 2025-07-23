@@ -1,32 +1,40 @@
-import random
-from tkinter import *
+import tkinter as tk
 from tkinter import messagebox
+import secrets
+import string
 import pyperclip
 
-gui = Tk()
-gui.title('Password Generator')
-gui.geometry('250x200')
-gui.resizable(0,0)
 
-def process():
-    length = int(string_pass.get())
+def generate_password():
+    try:
+        length = int(length_var.get())
+        if length < 4:
+            raise ValueError("Length must be at least 4")
 
-    lower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-    upper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    special = ['@', '#', '$', '%', '&', '*']
-    all = lower + upper + num + special
-    ran = random.sample(all,length)
-    password = "".join(ran)
-    messagebox.showinfo('Result', 'Your password {} \n\nPassword Copied to Clipboard'.format(password))
-    pyperclip.copy(password)
+        lower = string.ascii_lowercase
+        upper = string.ascii_uppercase
+        digits = string.digits
+        symbols = "@#$%&*"
 
-string_pass = StringVar()
-label = Label(text="Password Length").pack(pady=10)
-txt = Entry(textvariable=string_pass).pack()
-btn = Button(text="Generator", command=process).pack(pady=10)
+        all_chars = lower + upper + digits + symbols
 
-gui.mainloop()
+        password = ''.join(secrets.choice(all_chars) for _ in range(length))
+        pyperclip.copy(password)
+        messagebox.showinfo("Password Generated", f"Your password:\n\n{password}\n\nCopied to clipboard!")
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Please enter a valid number (minimum 4).")
 
-a = "Pythyon"
-print(a)
+app = tk.Tk()
+app.title("🔐 Password Generator")
+app.geometry("300x200")
+app.resizable(False, False)
+
+
+tk.Label(app, text="Enter Password Length:", font=("Segoe UI", 11)).pack(pady=10)
+length_var = tk.StringVar()
+tk.Entry(app, textvariable=length_var, width=20).pack()
+
+tk.Button(app, text="Generate Password", command=generate_password, bg="black", fg="white", padx=10, pady=5).pack(pady=20)
+
+app.mainloop()
+
