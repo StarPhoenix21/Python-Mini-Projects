@@ -1,90 +1,97 @@
-class BST:
-
-    def __init__(self,val,left,right):
+class BSTNode:
+    def __init__(self, val):
         self.val = val
-        self.left = left
-        self.right = right
+        self.left = None
+        self.right = None
 
-    def addHelper(self,root,data):
-        
-        # case for reaching current leafs, base cases
-        if root.val < data and root.right == None:
-            root.right = BST(data,None,None)
-            return "insertion completed"
-        elif root.val > data and root.left == None:
-            root.left = BST(data,None,None)
-            return "insertion completed"
-        
-        # else we continue tracing downwards
-        if root.val < data:
-            return self.add(root.right,data)
-        elif root.val > data:
-            return self.add(root.left,data)
-        else:
-            return "insertion failed: duplicate value"
-        
-    def add(self,root,data):
-        if root == None:
-            return "insertion failed: empty root"
-        return self.addHelper(root,data)
-    
-    def restructdata(self,root):
-        # base case: we reach a leaf
-        if root == None or (root.left == None and root.right == None):
-            root = None
-            return "restructure finished"
-        
-        # need dummy nodes to compare target value to children value
-        v1 = float('-inf')
-        v2 = float('inf')
-        if root.left != None:
-            v1 = root.left.val
-        if root.right != None:
-            v2 = root.right.val
-        
-        temp = root.val
-        if v1 > v2 or v2 == float('inf'):
-            root.val = root.left.val
-            root.left.val = temp
-            return self.restructdata(root.left)
-        else:
-            root.val = root.right.val
-            root.right.val = temp
-            return self.restructdata(root.right)
-    
-    
-    def removeHelper(self,root,data):
-        if root == None:
-            return "deletion failed: could not find value"
-        
-        # adhering to typical bst properties
-        if root.val < data:
-            return self.removeHelper(root.right,data)
-        elif root.val > data:
-            return self.removeHelper(root.left,data)
-        else:
-            temp = root.val
-            v1 = float('-inf')
-            v2 = float('inf')
-            if root.left != None:
-                v1 = root.left.val
-            elif root.right != None:
-                v2 = root.right.val
-            
-            if v1 > v2 or v2 == float('inf'):
-                root.val = root.left.val
-                root.left.val = temp
-                return self.restructdata(root.left)
+    def insert(self, data):
+        if data < self.val:
+            if self.left is None:
+                self.left = BSTNode(data)
+                return f"Inserted {data} to left of {self.val}"
             else:
-                root.val = root.right.val
-                root.right.val = temp
-                return self.restructdata(root.right)
-            
-    def remove(self,root,data):
-        if root == None:
-            return "deletion failed: deleting from an empty tree"
-        return self.removeHelper(root,data)
-            
+                return self.left.insert(data)
+        elif data > self.val:
+            if self.right is None:
+                self.right = BSTNode(data)
+                return f"Inserted {data} to right of {self.val}"
+            else:
+                return self.right.insert(data)
+        else:
+            return f"Insertion failed: {data} already exists"
+
+    def find_min(self):
+        current = self
+        while current.left:
+            current = current.left
+        return current
+
+    def delete(self, data):
+        if data < self.val:
+            if self.left:
+                self.left = self.left.delete(data)
+        elif data > self.val:
+            if self.right:
+                self.right = self.right.delete(data)
+        else:
+            # Node found
+            if self.left is None and self.right is None:
+                return None
+            elif self.left is None:
+                return self.right
+            elif self.right is None:
+                return self.left
+            else:
+                min_larger_node = self.right.find_min()
+                self.val = min_larger_node.val
+                self.right = self.right.delete(min_larger_node.val)
+        return self
+
+    def inorder(self):
+        result = []
+        if self.left:
+            result.extend(self.left.inorder())
+        result.append(self.val)
+        if self.right:
+            result.extend(self.right.inorder())
+        return result
+
+    def __str__(self):
+        return " -> ".join(map(str, self.inorder()))
+
+
+class BinarySearchTree:
+    def __init__(self, root_val):
+        self.root = BSTNode(root_val)
+
+    def insert(self, data):
+        return self.root.insert(data)
+
+    def delete(self, data):
+        self.root = self.root.delete(data)
+
+    def display(self):
+        return str(self.root)
+
+
+if __name__ == "__main__":
+    tree = BinarySearchTree(50)
+    print(tree.insert(30))
+    print(tree.insert(70))
+    print(tree.insert(20))
+    print(tree.insert(40))
+    print(tree.insert(60))
+    print(tree.insert(80))
+
+    print("Initial tree:", tree.display())
+
+    tree.delete(70)
+    print("After deleting 70:", tree.display())
+
+    tree.delete(50)
+    print("After deleting root (50):", tree.display())
+
+
         
     
     
