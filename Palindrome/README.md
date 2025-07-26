@@ -1,35 +1,56 @@
-# Palindrome Checker (Tkinter GUI - Strict)
+![Star Badge](https://img.shields.io/github/stars/ndleah/python-mini-project?style=social) 
+![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
 
-This project is a GUI-based strict palindrome checker built with Python's `tkinter` module.
+# Palindrome Checker
 
-It checks if the entered string is a **strict palindrome**, meaning it considers:
-- **Case sensitivity**
-- **Spaces**
-- **Punctuation**
+## 🛠️ Description
 
----
+This open-source project contains a strict palindrome checker built using Python's `tkinter` module. The checker evaluates user input and determines if it is a **strict palindrome**, meaning it is **case-sensitive**, **space-sensitive**, and **punctuation-sensitive**.
 
-## How to Use
+If you want, you can get the Python files and edit them as you want. Feel free to contribute to this repository. You can:
+1. Improve functionality  
+2. Fix a bug  
+3. Or add a new cool feature  
 
-1. Run the script: `palindrome_checker.py`
-2. Enter a string in the text box
-3. Click **“Check”** to see the result
+Try to contribute as much as you can. Even a small contribution is enough.
 
----
+## ⚙️ Languages or Frameworks Used
 
-## Requirements
+- Python  
+- Tkinter (built-in module – no installation required)
 
-- Python 3.x  
-- Tkinter (included with standard Python installations)
+No external libraries are needed. This project runs on standard Python 3.x installations.
 
----
+## 🌟 How to run
 
-## Screenshots
+You can type this command on your terminal to run the script:
 
-### 1. Input with space – Not a Palindrome  
-Strict checker rejects `"mala yalam"` due to space:
-![Not a palindrome](screenshot1.png)
+```bash
+python Palindrome/palindrome.py
+````
 
-### 2. Proper input – Valid Palindrome  
-Accepts `"malayalam"` as a palindrome:
-![Is a palindrome](screenshot2.png)
+If this doesn't work, try:
+
+```bash
+python3 Palindrome/palindrome.py
+```
+
+To stop it you can press `CTRL + C`.
+
+## 📺 Demo
+
+**1️⃣ Input is *not* a palindrome due to whitespace sensitivity (e.g., `"A man a plan a canal Panama"`):**
+
+![Non-Palindrome](screenshot1.png)
+
+**2️⃣ Input *is* a strict palindrome (e.g., `"madam"`):**
+
+![Strict Palindrome](screenshot2.png)
+
+## 🤖 Author
+
+This script is by AshnaParveen.
+
+GitHub: [AshnaParveen](https://github.com/AshnaParveen)
+
+
