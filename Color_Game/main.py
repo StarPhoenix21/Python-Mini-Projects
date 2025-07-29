@@ -2,98 +2,97 @@ import random
 import tkinter as tk
 from tkinter import messagebox
 
-colours = ['Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Black', 'White']
+# Constants
+COLOURS = ['Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Black', 'White']
+TIME_LIMIT = 30
+
+# Global state
 score = 0
-timeleft = 30
+timeleft = TIME_LIMIT
 
 def next_colour():
     global score, timeleft
 
     if timeleft > 0:
-        user_input = e.get().lower()
-        correct_color = colours[1].lower()
+        user_input = entry.get().strip().lower()
+        correct_colour = COLOURS[1].lower()  # The colour of the text
 
-        if user_input == correct_color:
+        if user_input == correct_colour:
             score += 1
 
-        e.delete(0, tk.END)
-        random.shuffle(colours)
-        label.config(fg=colours[1], text=colours[0])
+        entry.delete(0, tk.END)
+        random.shuffle(COLOURS)
+        colour_label.config(fg=COLOURS[1], text=COLOURS[0])
         score_label.config(text=f"Score: {score}")
-
 
 def countdown():
     global timeleft
+
     if timeleft > 0:
         timeleft -= 1
         time_label.config(text=f"Time left: {timeleft}")
         time_label.after(1000, countdown)
     else:
-    # messagebox.showwarning ('Attention', 'Your time is out!!')
-        scoreshow()
-        
+        show_high_score()
 
-def record_highest_score():
-    highest_score = load_highest_score()
-    if score > highest_score:
-        with open("highest_score.txt", "w") as file:
-            file.write(str(score))
-    
-
-
-def load_highest_score():
+def save_high_score():
     try:
-        with open("highest_score.txt", "r") as file:
-            data = file.read()
-            if data:
-                return int(data)
-            else:
-                return 0
-    except FileNotFoundError:
+        with open("highest_score.txt", "r") as f:
+            highest = int(f.read())
+    except (FileNotFoundError, ValueError):
+        highest = 0
+
+    if score > highest:
+        with open("highest_score.txt", "w") as f:
+            f.write(str(score))
+
+def load_high_score():
+    try:
+        with open("highest_score.txt", "r") as f:
+            return int(f.read())
+    except (FileNotFoundError, ValueError):
         return 0
 
+def show_high_score():
+    save_high_score()
+    top = tk.Toplevel()
+    top.title("High Score")
+    top.geometry("250x150")
 
-def scoreshow():
-    record_highest_score()
-    window2 = tk.Tk()
-    window2.title("HIGH SCORE")
-    window2.geometry("300x200")
-
-    label = tk.Label(window2, text=f"Highest Score: {load_highest_score()}",font=(font, 12))
-   
-    label.pack()
-
-    window2.mainloop()
+    msg = f"Your Score: {score}\nHighest Score: {load_high_score()}"
+    tk.Label(top, text=msg, font=("Helvetica", 14)).pack(pady=20)
+    tk.Button(top, text="Close", command=top.destroy).pack()
 
 def start_game(event):
     global timeleft
-    if timeleft == 30:
+    if timeleft == TIME_LIMIT:
         countdown()
     next_colour()
 
+# Setup window
 window = tk.Tk()
-font = 'Helvetica'
 window.title("Color Game")
-window.iconbitmap("color_game_icon.ico")
 window.geometry("375x250")
 window.resizable(False, False)
 
-instructions = tk.Label(window, text="Enter the color of the text, not the word!", font=(font, 12))
+font_name = "Helvetica"
+
+instructions = tk.Label(window, text="Type the COLOR of the text, not the word!", font=(font_name, 12))
 instructions.pack(pady=10)
 
-score_label = tk.Label(window, text="Press Enter to start", font=(font, 12))
+score_label = tk.Label(window, text="Press Enter to start", font=(font_name, 12))
 score_label.pack()
- 
-time_label = tk.Label(window, text=f"Time left: {timeleft}", font=(font, 12))
+
+time_label = tk.Label(window, text=f"Time left: {timeleft}", font=(font_name, 12))
 time_label.pack()
 
-label = tk.Label(window, font=(font, 60))
-label.pack(pady=20)
+colour_label = tk.Label(window, font=(font_name, 60))
+colour_label.pack(pady=20)
 
-e = tk.Entry(window)
+entry = tk.Entry(window)
+entry.pack()
+entry.focus_set()
+
 window.bind('<Return>', start_game)
-e.pack()
-
-e.focus_set()
 
 window.mainloop()
