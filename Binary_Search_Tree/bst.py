@@ -1,90 +1,45 @@
 class BST:
-
-    def __init__(self,val,left,right):
+    def __init__(self, val):
         self.val = val
-        self.left = left
-        self.right = right
+        self.left = None
+        self.right = None
 
-    def addHelper(self,root,data):
-        
-        # case for reaching current leafs, base cases
-        if root.val < data and root.right == None:
-            root.right = BST(data,None,None)
-            return "insertion completed"
-        elif root.val > data and root.left == None:
-            root.left = BST(data,None,None)
-            return "insertion completed"
-        
-        # else we continue tracing downwards
-        if root.val < data:
-            return self.add(root.right,data)
-        elif root.val > data:
-            return self.add(root.left,data)
+    def insert(self, root, data):
+        if root is None:
+            return BST(data)
+        if data < root.val:
+            root.left = self.insert(root.left, data)
+        elif data > root.val:
+            root.right = self.insert(root.right, data)
+        return root
+
+    def find_min(self, root):
+        current = root
+        while current.left is not None:
+            current = current.left
+        return current
+
+    def delete(self, root, data):
+        if root is None:
+            return root
+        if data < root.val:
+            root.left = self.delete(root.left, data)
+        elif data > root.val:
+            root.right = self.delete(root.right, data)
         else:
-            return "insertion failed: duplicate value"
-        
-    def add(self,root,data):
-        if root == None:
-            return "insertion failed: empty root"
-        return self.addHelper(root,data)
-    
-    def restructdata(self,root):
-        # base case: we reach a leaf
-        if root == None or (root.left == None and root.right == None):
-            root = None
-            return "restructure finished"
-        
-        # need dummy nodes to compare target value to children value
-        v1 = float('-inf')
-        v2 = float('inf')
-        if root.left != None:
-            v1 = root.left.val
-        if root.right != None:
-            v2 = root.right.val
-        
-        temp = root.val
-        if v1 > v2 or v2 == float('inf'):
-            root.val = root.left.val
-            root.left.val = temp
-            return self.restructdata(root.left)
-        else:
-            root.val = root.right.val
-            root.right.val = temp
-            return self.restructdata(root.right)
-    
-    
-    def removeHelper(self,root,data):
-        if root == None:
-            return "deletion failed: could not find value"
-        
-        # adhering to typical bst properties
-        if root.val < data:
-            return self.removeHelper(root.right,data)
-        elif root.val > data:
-            return self.removeHelper(root.left,data)
-        else:
-            temp = root.val
-            v1 = float('-inf')
-            v2 = float('inf')
-            if root.left != None:
-                v1 = root.left.val
-            elif root.right != None:
-                v2 = root.right.val
-            
-            if v1 > v2 or v2 == float('inf'):
-                root.val = root.left.val
-                root.left.val = temp
-                return self.restructdata(root.left)
-            else:
-                root.val = root.right.val
-                root.right.val = temp
-                return self.restructdata(root.right)
-            
-    def remove(self,root,data):
-        if root == None:
-            return "deletion failed: deleting from an empty tree"
-        return self.removeHelper(root,data)
-            
-        
-    
-    
+            # Node with one or no child
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+            # Node with two children
+            min_node = self.find_min(root.right)
+            root.val = min_node.val
+            root.right = self.delete(root.right, min_node.val)
+        return root
+
+    def inorder(self, root):
+        if root:
+            self.inorder(root.left)
+            print(root.val, end=' ')
+            self.inorder(root.right)
