@@ -1,32 +1,66 @@
 import random
-from tkinter import *
+import tkinter as tk
 from tkinter import messagebox
+import string
 import pyperclip
 
-gui = Tk()
-gui.title('Password Generator')
-gui.geometry('250x200')
-gui.resizable(0,0)
+# --- GUI Setup ---
+app = tk.Tk()
+app.title('Password Generator')
+app.geometry('250x200')
+app.resizable(False, False)
 
-def process():
-    length = int(string_pass.get())
+# --- Functions ---
+def generate_password():
+    """
+    Generates a random password based on the user-specified length.
+    It includes letters, numbers, and punctuation symbols.
+    """
+    try:
+        # Get the desired password length from the entry box
+        length = int(string_pass.get())
 
-    lower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-    upper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    special = ['@', '#', '$', '%', '&', '*']
-    all = lower + upper + num + special
-    ran = random.sample(all,length)
-    password = "".join(ran)
-    messagebox.showinfo('Result', 'Your password {} \n\nPassword Copied to Clipboard'.format(password))
-    pyperclip.copy(password)
+        # Validate that the length is a positive integer
+        if length <= 0:
+            messagebox.showerror('Invalid Length', 'Please enter a positive number for the password length.')
+            return
 
-string_pass = StringVar()
-label = Label(text="Password Length").pack(pady=10)
-txt = Entry(textvariable=string_pass).pack()
-btn = Button(text="Generator", command=process).pack(pady=10)
+        # Use the string module for a clean way to define character sets
+        all_characters = string.ascii_letters + string.digits + string.punctuation
 
-gui.mainloop()
+        # Use random.sample to create a password with the specified length
+        # This ensures all characters are unique within the password
+        if length > len(all_characters):
+            # If the requested length is greater than the available unique characters,
+            # use random.choice to allow for repeated characters.
+            password = "".join(random.choice(all_characters) for _ in range(length))
+        else:
+            password = "".join(random.sample(all_characters, length))
 
-a = "Pythyon"
-print(a)
+        # Display the generated password to the user
+        messagebox.showinfo(
+            'Password Generated',
+            f'Your new password is:\n\n{password}\n\nIt has been copied to your clipboard.'
+        )
+
+        # Copy the password to the clipboard
+        pyperclip.copy(password)
+
+    except ValueError:
+        # Handle cases where the user enters non-integer input
+        messagebox.showerror('Invalid Input', 'Please enter a valid number for the password length.')
+
+# --- UI Elements ---
+string_pass = tk.StringVar()
+
+label = tk.Label(app, text="Password Length")
+label.pack(pady=10)
+
+txt = tk.Entry(app, textvariable=string_pass)
+txt.pack()
+
+btn = tk.Button(app, text="Generate", command=generate_password)
+btn.pack(pady=10)
+
+# Start the main event loop
+app.mainloop()
