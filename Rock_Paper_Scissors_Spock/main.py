@@ -27,7 +27,7 @@ computerPoints = 0
 # WHILE LOOP TO SET THE NUMBER OF ROUNDS
 while count != 6:
     # INPUT FOR PLAYER'S CHOICE
-    player = input("What is your move? ")
+player = input("What is your move? ").strip().capitalize()
     # COMPUTRON RANDOMLY SELECT CHOICE FROM CHOICES LIST
     computer = random.choice(choices)
     # UNCOMMENT THE LINE BELOW IF YOU WISH TO SEE COMPUTRONS' CHOICE
@@ -98,7 +98,8 @@ while count != 6:
     print("")
 
     # INCREMENT TO CONTROL THE NUMBER OR ROUNDS
-    count += 1
+print(f"Current Score — You: {playerPoints}, Computron: {computerPoints}\n")   
+count += 1
 
 # COMPARISON TO DETERMINE WHO IS THE CHAMPION
 if playerPoints > computerPoints:
