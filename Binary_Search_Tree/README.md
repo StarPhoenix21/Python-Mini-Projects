@@ -23,11 +23,11 @@ This project provides a **Python implementation** of a BST, allowing you to **in
 
 ---
 
-##   BST Property Rule
+##   BST Property Rule  
 
-For any node N:
-  All values in N's left subtree  <  N.value
-  All values in N's right subtree >  N.value
+For any node N:  
+  All values in N's left subtree  <  N.value  
+  All values in N's right subtree >  N.value  
 ```python
 from bst import BST  # assuming file is bst.py
 
