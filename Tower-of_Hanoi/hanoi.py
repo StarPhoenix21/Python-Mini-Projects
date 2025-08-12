@@ -21,17 +21,17 @@ c3 = " "
 
 def main():
 
-    print("")
+    print()
     print(f"{a3} | {b3} | {c3}")
     print(f"{a2} | {b2} | {c2}")
     print(f"{a1} | {b1} | {c1}")
-    print("")
+    print()
 
     hanoi()
 
-print("")    
+print()    
 print("Choose a column (1, 2, or 3) to pull the top number, then choose a column to move that number to. Numbers must always be less than the number beneath them.")
-print("Goal: move the full stack to another column.")
+print("Goal: Move the full stack to another column.")
 
 def hanoi():
     global a1
@@ -107,7 +107,6 @@ def hanoi():
                     else:
                         b3 = charon
 
-
             elif int(move) == 3:
                 if c1 == " ":
                     c1 = charon
@@ -138,11 +137,11 @@ def hanoi():
 
                     else:
                         c3 = charon
-            
+
             else:
                 print("stew")
 
-#######################################################
+##################################################
 
         elif int(col) == 2:
             if b3 == " ":
@@ -234,7 +233,7 @@ def hanoi():
             else:
                 print("stew")
 
-#######################################################
+##################################################
 
         elif int(col) == 3:
             if c3 == " ":
@@ -324,34 +323,29 @@ def hanoi():
 
                     else:
                         b3 = charon
-            
+
             else:
                 print("stew")
     else:
         print("1 2 or 3")
         hanoi()
 
-#######################################################
+##################################################
 
-    print("")
+    print()
     print(f"{a3} | {b3} | {c3}")
     print(f"{a2} | {b2} | {c2}")
     print(f"{a1} | {b1} | {c1}")
-    print("")
-
+    print()
 
     #WINNING MESSAGE
     if b3 == 1:
-        print("CONGRADULATIONS!")
-        print("")
-
+        print("CONGRATULATIONS!")
+        print()
 
     if c3 == 1:
-        print("CONGRADULATIONS!")
-        print("")
-
-
-
+        print("CONGRATULATIONS!")
+        print()
 
     hanoi()
 
@@ -370,6 +364,5 @@ def test():
     print(f"{a3}")
     a3 = c3
     print(f"{a3}")
-
 
 main()
