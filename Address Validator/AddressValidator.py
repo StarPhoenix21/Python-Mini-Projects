@@ -1,12 +1,21 @@
+# email has contain atleast one "." and only one "@"
+# Email has not contain spaces
+
+
 def addressVal(address):
     dot = address.find(".")
     at = address.find("@")
-    if (dot == -1):
-        print("Invalid")
-    elif (at == -1):
-        print("Invalid")
+    at_count = address.count("@")
+
+    if (
+        dot >=1 
+        and at > 0
+        and at_count == 1 
+        and " " not in address 
+        and address.endswith("@gmail.com")):
+        print("Valid Email")
     else:
-        print("Valid")
+        print("invalid Email")    
 
 print("This program will decide if your input is a valid email address")
 while(True):
